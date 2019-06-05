@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB77D73822A7D37000BEA162 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = EB77D73722A7D37000BEA162 /* Assets */; };
 		EBF9E88122A6FF8500CB3606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9E88022A6FF8500CB3606 /* AppDelegate.swift */; };
 		EBF9E88322A6FF8500CB3606 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9E88222A6FF8500CB3606 /* ViewController.swift */; };
 		EBF9E88622A6FF8500CB3606 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF9E88422A6FF8500CB3606 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EB77D73722A7D37000BEA162 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		EBF9E87D22A6FF8500CB3606 /* KitchenRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KitchenRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF9E88022A6FF8500CB3606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBF9E88222A6FF8500CB3606 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				EBF9E88722A6FF8600CB3606 /* Assets.xcassets */,
 				EBF9E88922A6FF8600CB3606 /* LaunchScreen.storyboard */,
 				EBF9E88C22A6FF8600CB3606 /* Info.plist */,
+				EB77D73722A7D37000BEA162 /* Assets */,
 			);
 			path = KitchenRadio;
 			sourceTree = "<group>";
@@ -123,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBF9E88B22A6FF8600CB3606 /* LaunchScreen.storyboard in Resources */,
+				EB77D73822A7D37000BEA162 /* Assets in Resources */,
 				EBF9E88822A6FF8600CB3606 /* Assets.xcassets in Resources */,
 				EBF9E88622A6FF8500CB3606 /* Main.storyboard in Resources */,
 			);
@@ -285,6 +289,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y894SWQNFC;
 				INFOPLIST_FILE = KitchenRadio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -303,6 +308,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Y894SWQNFC;
 				INFOPLIST_FILE = KitchenRadio/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
