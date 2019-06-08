@@ -1,0 +1,47 @@
+{
+    "station":
+    [
+        {
+            "name": "BBC Radio One",
+            "streamURL": "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_p",
+            "playlistURL": "NULL",
+            "imageAsset": "bbc_one",
+            "tileColor": "#000000",
+        },
+        {
+            "name": "Triple J",
+            "streamURL": "http://abcradiolivehls-lh.akamaihd.net/i/triplejnsw_1@327300/master.m3u8",
+            "playlistURL": "NULL",
+            "imageAsset": "triplej",
+            "tileColor": "#E53227",
+        },
+        {
+            "name": "KEXP",
+            "streamURL": "http://live-mp3-128.kexp.org/",
+            "playlistURL": "NULL",
+            "imageAsset": "kexp",
+            "tileColor": "#F9A72F",
+        },
+        {
+            "name": "DR P3",
+            "streamURL": "http://drradio3-lh.akamaihd.net/i/p3_9@143506/master.m3u8",
+            "playlistURL": "NULL",
+            "imageAsset": "p3",
+            "tileColor": "#829A9B",
+        },
+        {
+            "name": "DR P6 Beat",
+            "streamURL": "http://drradio3-lh.akamaihd.net/i/p6beat_9@143533/master.m3u8",
+            "playlistURL": "NULL",
+            "imageAsset": "p6",
+            "tileColor": "#48474D",
+        },
+        {
+            "name": "DR P7 Mix",
+            "streamURL": "http://drradio1-lh.akamaihd.net/i/p7mix_9@143522/master.m3u8",
+            "playlistURL": "NULL",
+            "imageAsset": "p7",
+            "tileColor": "#1CA690",
+        },
+    ]
+}
