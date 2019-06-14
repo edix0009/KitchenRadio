@@ -2,12 +2,11 @@ import UIKit
 import AVKit
 import MediaPlayer
 
-
 class ViewController: UIViewController {
 
     var slideGesture = UIPanGestureRecognizer()
     
-    
+    // Main button collection
     @IBOutlet weak var buttonCollaction: UIStackView!
     @IBOutlet var container: UIView!
     
@@ -16,8 +15,27 @@ class ViewController: UIViewController {
     var stationButtons: [UIButton]?
     var stations: [RadioStation]?
     
+    // Control panel
+    @IBOutlet weak var controlStackView: UIStackView!
+    
+    let dateFormatter = DateFormatter()
+    var clock = Timer()
+    @IBOutlet weak var clockLabel: UILabel!
+    
+    @IBOutlet weak var resetButton: UIButton!
+    
+    func teest(linet: URL?) {
+        print("Heeeej")
+        print(linet!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let fff = FRadioAPI()
+        
+        FRadioAPI.getArtwork(for: "CamelPhat - Be Someone ( Jake Bugg)", size: 300, completionHandler: teest(linet:))
+        
         stations = loadStationsFromJSON(from: "stations")
         
         stationButtons = getSubviewsOf(view: buttonCollaction).filter{$0 is UIButton}
@@ -25,6 +43,11 @@ class ViewController: UIViewController {
         
         player = RadioPlayer(stations: stations!)
         
+        controlStackView.addBackground(color: hexStringToUIColor(hex: "#1B1B1B"))
+        
+        dateFormatter.dateFormat = "HH:mm"
+        clock = Timer.scheduledTimer(timeInterval: 12.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
+        tick()
 
         slideGesture = UIPanGestureRecognizer(target: self, action: #selector(panDetected(sender:)))
         slideGesture.maximumNumberOfTouches = 1
@@ -35,6 +58,12 @@ class ViewController: UIViewController {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTap(sender:)))
         gesture.numberOfTapsRequired = 3
         container.addGestureRecognizer(gesture)
+        
+    }
+    
+    @objc func tick() {
+        clockLabel.text = dateFormatter.string(from: Date())
+        
         
     }
     
@@ -53,7 +82,7 @@ class ViewController: UIViewController {
         
         for (index, button) in buttons.enumerated() {
             
-            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: 0.95)
+            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: 0.90)
             
             button.setImage(programImage, for: .normal)
             button.backgroundColor = hexStringToUIColor(hex: stations[index].tileColor)
@@ -65,7 +94,10 @@ class ViewController: UIViewController {
         }
         
     }
-
+    @IBAction func resetTapped(_ sender: Any) {
+        player?.reset(stations: stations!)
+    }
+    
     var prev:CGFloat = 0.0
     @objc func panDetected(sender : UIPanGestureRecognizer) {
         
@@ -196,6 +228,15 @@ extension UIButton {
                 indicator.removeFromSuperview()
             }
         }
+    }
+}
+
+extension UIStackView {
+    func addBackground(color: UIColor) {
+        let subView = UIView(frame: bounds)
+        subView.backgroundColor = color
+        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        insertSubview(subView, at: 0)
     }
 }
 
