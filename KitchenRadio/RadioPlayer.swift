@@ -35,25 +35,19 @@ class RadioPlayer  {
         streams?.forEach{$0.play(); $0.isMuted = true}
         
     }
-    
-    //    func reset(station: RadioStation) {
-    //        let player: AVPlayer = (streams?.first(where: { (($0.currentItem?.asset) as? AVURLAsset)!.url == station.streamURL}))!
-    //
-    //        player.play()
-    //    }
 
     @objc func playerItemFailedToPlay(_ notification: Notification) {
 //        let error = notification.userInfo?.first(where: { $0.value is Error }) as? Error
         
-        //let player = (notification.object as! AVPlayer)
-        //player.pause()
+        let player = (notification.object as! AVPlayer)
+        player.pause()
     }
 
     
 }
 
 extension AVPlayer {
-    var isPlaying: Bool {
+    var isPlaying: Bool? {
         return rate != 0
     }
 }
