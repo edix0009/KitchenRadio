@@ -11,6 +11,7 @@
 		EB77D73C22A7DA9800BEA162 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73B22A7DA9800BEA162 /* DataManager.swift */; };
 		EB77D73E22A7DB2600BEA162 /* RadioStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73D22A7DB2600BEA162 /* RadioStation.swift */; };
 		EB77D74022A7FF9500BEA162 /* RadioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73F22A7FF9500BEA162 /* RadioPlayer.swift */; };
+		EBC30D5922B444B300F60AEA /* FRadioAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC30D5822B444B300F60AEA /* FRadioAPI.swift */; };
 		EBF9E88122A6FF8500CB3606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9E88022A6FF8500CB3606 /* AppDelegate.swift */; };
 		EBF9E88322A6FF8500CB3606 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9E88222A6FF8500CB3606 /* ViewController.swift */; };
 		EBF9E88622A6FF8500CB3606 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF9E88422A6FF8500CB3606 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 		EB77D73B22A7DA9800BEA162 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EB77D73D22A7DB2600BEA162 /* RadioStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioStation.swift; sourceTree = "<group>"; };
 		EB77D73F22A7FF9500BEA162 /* RadioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioPlayer.swift; sourceTree = "<group>"; };
+		EBC30D5822B444B300F60AEA /* FRadioAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FRadioAPI.swift; sourceTree = "<group>"; };
 		EBF9E87D22A6FF8500CB3606 /* KitchenRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KitchenRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF9E88022A6FF8500CB3606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBF9E88222A6FF8500CB3606 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				EB77D73D22A7DB2600BEA162 /* RadioStation.swift */,
 				EB77D73F22A7FF9500BEA162 /* RadioPlayer.swift */,
 				EBF9E88022A6FF8500CB3606 /* AppDelegate.swift */,
+				EBC30D5822B444B300F60AEA /* FRadioAPI.swift */,
 				EBF9E88222A6FF8500CB3606 /* ViewController.swift */,
 				EBF9E88422A6FF8500CB3606 /* Main.storyboard */,
 				EBF9E88722A6FF8600CB3606 /* Assets.xcassets */,
@@ -153,6 +156,7 @@
 				EB77D73E22A7DB2600BEA162 /* RadioStation.swift in Sources */,
 				EBF9E88122A6FF8500CB3606 /* AppDelegate.swift in Sources */,
 				EB77D74022A7FF9500BEA162 /* RadioPlayer.swift in Sources */,
+				EBC30D5922B444B300F60AEA /* FRadioAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
