@@ -1,6 +1,7 @@
 import UIKit
 import AVKit
 import MediaPlayer
+import SwiftSoup
 
 class ViewController: UIViewController {
 
@@ -15,8 +16,17 @@ class ViewController: UIViewController {
     var stationButtons: [UIButton]?
     var stations: [RadioStation]?
     
+    var workItem: DispatchWorkItem?
+    
     // Control panel
+    var currentStation: RadioStation?
+    
     @IBOutlet weak var controlStackView: UIStackView!
+    
+    @IBOutlet weak var artworkImageView: UIImageView!
+    @IBOutlet weak var songLabel: UILabel!
+    @IBOutlet weak var artistLabel: UILabel!
+    
     
     let dateFormatter = DateFormatter()
     var clock = Timer()
@@ -24,19 +34,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var resetButton: UIButton!
     
-    func teest(linet: URL?) {
-        print("Heeeej")
-        print(linet!)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let fff = FRadioAPI()
-        
-        FRadioAPI.getArtwork(for: "CamelPhat - Be Someone ( Jake Bugg)", size: 300, completionHandler: teest(linet:))
-        
         stations = loadStationsFromJSON(from: "stations")
+        currentStation = stations?.first
         
         stationButtons = getSubviewsOf(view: buttonCollaction).filter{$0 is UIButton}
             initProgramButtons(buttons: stationButtons!, stations: stations!)
@@ -64,25 +66,55 @@ class ViewController: UIViewController {
     @objc func tick() {
         clockLabel.text = dateFormatter.string(from: Date())
         
+//        let trackinfo = NowPlayingInfo.getTrackInfo(url: (self.currentStation?.playlistURL)!)!
+//        FRadioAPI.getArtwork(for: trackinfo, size: 300, completionHandler: self.setArtwork(url:artist:track:))
+        if workItem != nil {
+            workItem!.cancel()
+        }
+        
+        workItem = DispatchWorkItem {
+            
+            let trackinfo = NowPlayingInfo.getTrackInfo(url: (self.currentStation?.playlistURL)!)!
+            
+            DispatchQueue.main.async {
+                FRadioAPI.getArtwork(for: trackinfo, size: 300, completionHandler: self.setArtwork(url:artist:track:))
+            }
+        }
+        
+        DispatchQueue.global().async(execute: workItem!)
+        
+    }
+    
+    func setArtwork(url: URL?, artist: String?, track: String?) {
+        
+        DispatchQueue.main.async {
+            if (url != nil) {
+                self.artworkImageView.downloaded(from: url!)
+            }
+        
+            self.artistLabel.text = artist
+            self.songLabel.text = track
+        }
+        
         
     }
     
     @objc func handleThreeFingerTap(sender: UITapGestureRecognizer) {
-        player?.reset(stations: stations!)
-        
-        let touchPoint = sender.location(in: self.view)
-        
-        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
-
-        player?.play(program: selectedProgram!.tag)
-        setNowPlayingIndicator(button: selectedProgram!)
+//        player?.reset(stations: stations!)
+//        
+//        let touchPoint = sender.location(in: self.view)
+//        
+//        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
+//
+//        player?.play(program: selectedProgram!.tag)
+//        setNowPlayingIndicator(button: selectedProgram!)
     }
     
     func initProgramButtons(buttons: [UIButton], stations: [RadioStation]) {
         
         for (index, button) in buttons.enumerated() {
             
-            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: 0.90)
+            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: 0.85)
             
             button.setImage(programImage, for: .normal)
             button.backgroundColor = hexStringToUIColor(hex: stations[index].tileColor)
@@ -123,13 +155,17 @@ class ViewController: UIViewController {
     
     
     @IBAction func programTouched(_ sender: UIButton) {
-        player?.play(program: sender.tag)
-        setNowPlayingIndicator(button: sender)
+        
+        self.currentStation = self.stations![sender.tag]
+        self.player?.play(program: sender.tag)
+        self.setNowPlayingIndicator(button: sender)
+        
+        tick()
     }
     
     func setNowPlayingIndicator(button: UIButton) {
         stationButtons?.forEach {$0.titleLabel?.text = ""}
-        button.titleLabel?.text = "__"
+        button.titleLabel?.text = "·"
     }
     
     func loadStationsFromJSON(from: String) -> [RadioStation]? {
@@ -237,6 +273,27 @@ extension UIStackView {
         subView.backgroundColor = color
         subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         insertSubview(subView, at: 0)
+    }
+}
+
+extension UIImageView {
+    func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
+        contentMode = mode
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard
+                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                let data = data, error == nil,
+                let image = UIImage(data: data)
+                else { return }
+            DispatchQueue.main.async() {
+                self.image = image
+            }
+            }.resume()
+    }
+    func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
+        guard let url = URL(string: link) else { return }
+        downloaded(from: url, contentMode: mode)
     }
 }
 

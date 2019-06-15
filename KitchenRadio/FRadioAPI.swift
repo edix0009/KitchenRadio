@@ -13,16 +13,14 @@ internal struct FRadioAPI {
     
     // MARK: - Util methods
     
-    static func getArtwork(for metadata: String, size: Int, completionHandler: @escaping (_ artworkURL: URL?) -> ()) {
-        
+    static func getArtwork(for metadata: String, size: Int, completionHandler: @escaping (_ artworkURL: URL?, _ artist: String?, _ track: String?) -> ()) {
+        print(metadata)
         guard !metadata.isEmpty, metadata !=  " - ", let url = getURL(with: metadata) else {
-            completionHandler(nil)
             return
         }
                 
         URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             guard error == nil, let data = data else {
-                completionHandler(nil)
                 return
             }
             
@@ -31,17 +29,16 @@ internal struct FRadioAPI {
             guard let parsedResult = json as? [String: Any],
                 let results = parsedResult[Keys.results] as? Array<[String: Any]>,
                 let result = results.first,
-                var artwork = result[Keys.artwork] as? String else {
-                    completionHandler(nil)
-                    return
-            }
+                var artwork = result[Keys.artwork] as? String,
+                let artist = result["artistName"] as? String,
+                let track = result["trackName"] as? String else { return }
             
             if size != 100, size > 0 {
                 artwork = artwork.replacingOccurrences(of: "100x100", with: "\(size)x\(size)")
             }
             
             let artworkURL = URL(string: artwork)
-            completionHandler(artworkURL)
+            completionHandler(artworkURL, artist, track)
         }).resume()
     }
     

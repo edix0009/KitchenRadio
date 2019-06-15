@@ -28,26 +28,43 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Tb0-Q8-SpR">
-                                        <rect key="frame" x="85" y="0.0" width="749" height="86"/>
+                                        <rect key="frame" x="85" y="0.0" width="741" height="86"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Name of song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rev-L1-buy">
-                                                <rect key="frame" x="0.0" y="0.0" width="749" height="20.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvh-iK-lqG">
+                                                <rect key="frame" x="0.0" y="0.0" width="741" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="UYe-E2-8bV"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rev-L1-buy">
+                                                <rect key="frame" x="0.0" y="16" width="741" height="27"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" red="0.91782994923857864" green="0.91782994923857864" blue="0.91782994923857864" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBh-8u-KtS">
-                                                <rect key="frame" x="0.0" y="20.5" width="749" height="65.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBh-8u-KtS">
+                                                <rect key="frame" x="0.0" y="43" width="741" height="27"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <color key="textColor" red="0.8986754441624365" green="0.8986754441624365" blue="0.8986754441624365" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F82-SH-dcc">
+                                                <rect key="frame" x="0.0" y="70" width="741" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="w5F-fM-DC9"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="cBh-8u-KtS" firstAttribute="leading" secondItem="Tb0-Q8-SpR" secondAttribute="leading" constant="20" id="PmY-dk-fL8"/>
+                                            <constraint firstItem="rev-L1-buy" firstAttribute="leading" secondItem="Tb0-Q8-SpR" secondAttribute="leading" constant="20" id="ugX-2w-GYw"/>
+                                            <constraint firstItem="cBh-8u-KtS" firstAttribute="height" secondItem="rev-L1-buy" secondAttribute="height" id="ymE-FG-Sga"/>
+                                        </constraints>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="16:32" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZ8-ic-EN6">
-                                        <rect key="frame" x="834" y="0.0" width="102" height="86"/>
+                                        <rect key="frame" x="826" y="0.0" width="110" height="86"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="102" id="Vxb-MC-Uhw"/>
+                                            <constraint firstAttribute="width" constant="110" id="Vxb-MC-Uhw"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -85,10 +102,11 @@
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ufo-X5-CHO">
                                                 <rect key="frame" x="0.0" y="0.0" width="341.5" height="331"/>
                                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <inset key="titleEdgeInsets" minX="-200" minY="260" maxX="0.0" maxY="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
+                                                <inset key="titleEdgeInsets" minX="-200" minY="220" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="__" image="triplej">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="·" image="triplej">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.77456121575342463" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="1TB-7F-uYE"/>
@@ -97,9 +115,12 @@
                                             <button opaque="NO" tag="1" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLy-3v-94g">
                                                 <rect key="frame" x="341.5" y="0.0" width="341" height="331"/>
                                                 <color key="backgroundColor" red="0.0" green="1" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <inset key="titleEdgeInsets" minX="-240" minY="260" maxX="0.0" maxY="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
+                                                <inset key="titleEdgeInsets" minX="-200" minY="220" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="__" image="bbc_one"/>
+                                                <state key="normal" title="·" image="bbc_one">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.77456121575342463" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="Vz6-6p-YP9"/>
                                                 </connections>
@@ -107,10 +128,11 @@
                                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-1F-feK">
                                                 <rect key="frame" x="682.5" y="0.0" width="341.5" height="331"/>
                                                 <color key="backgroundColor" red="0.094117647060000004" green="0.1019607843" blue="0.12549019610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <inset key="titleEdgeInsets" minX="-240" minY="260" maxX="0.0" maxY="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
+                                                <inset key="titleEdgeInsets" minX="-200" minY="220" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="__" image="bbc_one">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="·" image="bbc_one">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.77456121575342463" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="zzQ-Hj-dHu"/>
@@ -127,9 +149,12 @@
                                         <subviews>
                                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ShA-2l-Kz2">
                                                 <rect key="frame" x="0.0" y="0.0" width="341.5" height="331"/>
-                                                <inset key="titleEdgeInsets" minX="-240" minY="260" maxX="0.0" maxY="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
+                                                <inset key="titleEdgeInsets" minX="-200" minY="260" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="__" image="bbc_one"/>
+                                                <state key="normal" title="·" image="bbc_one">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.7460402397260274" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="fnh-Oz-Rr2"/>
                                                 </connections>
@@ -137,18 +162,24 @@
                                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vbf-oJ-rBW">
                                                 <rect key="frame" x="341.5" y="0.0" width="341" height="331"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <inset key="titleEdgeInsets" minX="-240" minY="260" maxX="0.0" maxY="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
+                                                <inset key="titleEdgeInsets" minX="-200" minY="260" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="__" image="bbc_one"/>
+                                                <state key="normal" title="·" image="bbc_one">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.7460402397260274" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="4mr-9s-8ck"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcD-Jq-A7v">
                                                 <rect key="frame" x="682.5" y="0.0" width="341.5" height="331"/>
-                                                <inset key="titleEdgeInsets" minX="-240" minY="260" maxX="0.0" maxY="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="40"/>
+                                                <inset key="titleEdgeInsets" minX="-200" minY="260" maxX="0.0" maxY="0.0"/>
                                                 <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                <state key="normal" title="__" image="bbc_one"/>
+                                                <state key="normal" title="·" image="bbc_one">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.7460402397260274" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="V1U-ZA-hpg"/>
                                                 </connections>
@@ -179,11 +210,14 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="artistLabel" destination="cBh-8u-KtS" id="H5f-E5-YEx"/>
+                        <outlet property="artworkImageView" destination="LHC-z5-V4d" id="q3Q-Hh-Bzk"/>
                         <outlet property="buttonCollaction" destination="cSr-rs-KZT" id="5gD-Y8-32l"/>
                         <outlet property="clockLabel" destination="tZ8-ic-EN6" id="gFM-Xo-Rvi"/>
                         <outlet property="container" destination="8bC-Xf-vdC" id="lLL-lX-zzf"/>
                         <outlet property="controlStackView" destination="dP2-X4-dXE" id="5jj-mX-QnI"/>
                         <outlet property="resetButton" destination="gFs-so-mDM" id="gll-NF-RW5"/>
+                        <outlet property="songLabel" destination="rev-L1-buy" id="gZZ-fh-E9L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
