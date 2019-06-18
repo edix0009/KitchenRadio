@@ -39,8 +39,8 @@ class RadioPlayer  {
     @objc func playerItemFailedToPlay(_ notification: Notification) {
 //        let error = notification.userInfo?.first(where: { $0.value is Error }) as? Error
         
-        let player = (notification.object as! AVPlayer)
-        player.pause()
+//        let player = (notification.object as! AVPlayer)
+//        player.pause()
     }
 
     

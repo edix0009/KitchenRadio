@@ -2,6 +2,7 @@ import UIKit
 import AVKit
 import MediaPlayer
 import SwiftSoup
+import DynamicBlurView
 
 class ViewController: UIViewController {
 
@@ -41,11 +42,12 @@ class ViewController: UIViewController {
         currentStation = stations?.first
         
         stationButtons = getSubviewsOf(view: buttonCollaction).filter{$0 is UIButton}
-            initProgramButtons(buttons: stationButtons!, stations: stations!)
+        initProgramButtons(buttons: stationButtons!, stations: stations!)
         
         player = RadioPlayer(stations: stations!)
         
-        controlStackView.addBackground(color: hexStringToUIColor(hex: "#1B1B1B"))
+        controlStackView.addBackground()
+        //controlStackView.addBackground(color: hexStringToUIColor(hex: "#1B1B1B"))
         
         dateFormatter.dateFormat = "HH:mm"
         clock = Timer.scheduledTimer(timeInterval: 12.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
@@ -75,9 +77,10 @@ class ViewController: UIViewController {
         workItem = DispatchWorkItem {
             
             let trackinfo = NowPlayingInfo.getTrackInfo(url: (self.currentStation?.playlistURL)!)!
+            FRadioAPI.getArtwork(for: trackinfo, size: 200, completionHandler: self.setArtwork(url:artist:track:))
             
             DispatchQueue.main.async {
-                FRadioAPI.getArtwork(for: trackinfo, size: 300, completionHandler: self.setArtwork(url:artist:track:))
+            
             }
         }
         
@@ -89,14 +92,28 @@ class ViewController: UIViewController {
         
         DispatchQueue.main.async {
             if (url != nil) {
-                self.artworkImageView.downloaded(from: url!)
+                self.downloadImage(from: url!)
             }
         
             self.artistLabel.text = artist
             self.songLabel.text = track
         }
         
-        
+    }
+    
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    func downloadImage(from url: URL) {
+        getData(from: url) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? url.lastPathComponent)
+            DispatchQueue.main.async() {
+                self.artworkImageView.image = UIImage(data: data)
+                self.controlStackView.setBackground(image:  UIImage(data: data)!)
+            }
+        }
     }
     
     @objc func handleThreeFingerTap(sender: UITapGestureRecognizer) {
@@ -267,17 +284,45 @@ extension UIButton {
     }
 }
 
+//extension UIStackView {
+//    func addBackground(color: UIColor) {
+//        let subView = UIView(frame: bounds)
+//        subView.backgroundColor = color
+//        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        insertSubview(subView, at: 0)
+//    }
+//}
+
 extension UIStackView {
-    func addBackground(color: UIColor) {
-        let subView = UIView(frame: bounds)
-        subView.backgroundColor = color
+
+    func addBackground() {
+        let subView = UIImageView(frame: bounds)
+        subView.image = UIImage(named: "download-1")
         subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        insertSubview(subView, at: 0)
+        
+        let blurView = DynamicBlurView(frame: bounds)
+        blurView.trackingMode = .common
+        blurView.blurRadius = 45
+        blurView.iterations = 9
+        blurView.blendMode = .multiply
+        blurView.blendColor = UIColor.black.withAlphaComponent(0.4)
+
+        
+        subView.addSubview(blurView)
+        self.insertSubview(subView, at: 0)
+        
+    }
+    
+    func setBackground(image: UIImage) {
+        let imageview = self.subviews.first{$0 is UIImageView} as! UIImageView
+        imageview.image = image.withSaturationAdjustment(byVal: 3.0)
     }
 }
 
+
+
 extension UIImageView {
-    func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
+    func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
         contentMode = mode
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard
@@ -291,10 +336,24 @@ extension UIImageView {
             }
             }.resume()
     }
-    func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
+    func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
         guard let url = URL(string: link) else { return }
         downloaded(from: url, contentMode: mode)
     }
+}
+
+extension UIImage {
+    
+    func withSaturationAdjustment(byVal: CGFloat) -> UIImage {
+        guard let cgImage = self.cgImage else { return self }
+        guard let filter = CIFilter(name: "CIColorControls") else { return self }
+        filter.setValue(CIImage(cgImage: cgImage), forKey: kCIInputImageKey)
+        filter.setValue(byVal, forKey: kCIInputSaturationKey)
+        guard let result = filter.value(forKey: kCIOutputImageKey) as? CIImage else { return self }
+        guard let newCgImage = CIContext(options: nil).createCGImage(result, from: result.extent) else { return self }
+        return UIImage(cgImage: newCgImage, scale: UIScreen.main.scale, orientation: imageOrientation)
+    }
+    
 }
 
 extension UIView{

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BFDBD3B342F2A0D6C347BFF4 /* Pods_KitchenRadio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F865E79E10F252A896647322 /* Pods_KitchenRadio.framework */; };
+		EB25E6B722B7CD5300890660 /* download-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EB25E6B622B7CD5300890660 /* download-1.jpg */; };
 		EB77D73A22A7D7B200BEA162 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = EB77D73922A7D7B200BEA162 /* stations.json */; };
 		EB77D73C22A7DA9800BEA162 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73B22A7DA9800BEA162 /* DataManager.swift */; };
 		EB77D73E22A7DB2600BEA162 /* RadioStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73D22A7DB2600BEA162 /* RadioStation.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		B8AEDB656179A84D01ADE48C /* Pods-KitchenRadio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KitchenRadio.release.xcconfig"; path = "Target Support Files/Pods-KitchenRadio/Pods-KitchenRadio.release.xcconfig"; sourceTree = "<group>"; };
 		E76D7AAD19C1267735FA204C /* Pods-KitchenRadio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KitchenRadio.debug.xcconfig"; path = "Target Support Files/Pods-KitchenRadio/Pods-KitchenRadio.debug.xcconfig"; sourceTree = "<group>"; };
+		EB25E6B622B7CD5300890660 /* download-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "download-1.jpg"; sourceTree = "<group>"; };
 		EB77D73922A7D7B200BEA162 /* stations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
 		EB77D73B22A7DA9800BEA162 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EB77D73D22A7DB2600BEA162 /* RadioStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioStation.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				EBED17CB22B457060030F49F /* NowPlayingInfo.swift */,
 				EBC30D5822B444B300F60AEA /* FRadioAPI.swift */,
 				EBF9E88222A6FF8500CB3606 /* ViewController.swift */,
+				EB25E6B622B7CD5300890660 /* download-1.jpg */,
 				EBF9E88422A6FF8500CB3606 /* Main.storyboard */,
 				EBF9E88722A6FF8600CB3606 /* Assets.xcassets */,
 				EBF9E88922A6FF8600CB3606 /* LaunchScreen.storyboard */,
@@ -170,6 +173,7 @@
 				EBF9E88822A6FF8600CB3606 /* Assets.xcassets in Resources */,
 				EBF9E88622A6FF8500CB3606 /* Main.storyboard in Resources */,
 				EB77D73A22A7D7B200BEA162 /* stations.json in Resources */,
+				EB25E6B722B7CD5300890660 /* download-1.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,28 +28,28 @@
                                         </constraints>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Tb0-Q8-SpR">
-                                        <rect key="frame" x="85" y="0.0" width="741" height="86"/>
+                                        <rect key="frame" x="85" y="0.0" width="733" height="86"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvh-iK-lqG">
-                                                <rect key="frame" x="0.0" y="0.0" width="741" height="16"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="733" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="UYe-E2-8bV"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of song" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rev-L1-buy">
-                                                <rect key="frame" x="0.0" y="16" width="741" height="27"/>
+                                                <rect key="frame" x="0.0" y="16" width="733" height="27"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" red="0.91782994923857864" green="0.91782994923857864" blue="0.91782994923857864" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBh-8u-KtS">
-                                                <rect key="frame" x="0.0" y="43" width="741" height="27"/>
+                                                <rect key="frame" x="0.0" y="43" width="733" height="27"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <color key="textColor" red="0.8986754441624365" green="0.8986754441624365" blue="0.8986754441624365" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F82-SH-dcc">
-                                                <rect key="frame" x="0.0" y="70" width="741" height="16"/>
+                                                <rect key="frame" x="0.0" y="70" width="733" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="w5F-fM-DC9"/>
                                                 </constraints>
@@ -62,11 +62,11 @@
                                         </constraints>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="16:32" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZ8-ic-EN6">
-                                        <rect key="frame" x="826" y="0.0" width="110" height="86"/>
+                                        <rect key="frame" x="818" y="0.0" width="118" height="86"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="110" id="Vxb-MC-Uhw"/>
+                                            <constraint firstAttribute="width" constant="118" id="Vxb-MC-Uhw"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                        <fontDescription key="fontDescription" name="ArialHebrew-Bold" family="Arial Hebrew" pointSize="38"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -93,6 +93,28 @@
                                     <constraint firstAttribute="height" constant="86" id="D2g-wO-v6Z"/>
                                 </constraints>
                             </stackView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EU5-uQ-pZX">
+                                <rect key="frame" x="0.0" y="284" width="1024" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="WJa-Nk-7pm">
+                                    <rect key="frame" x="0.0" y="0.0" width="1024" height="200"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qon-Uo-jKQ">
+                                            <rect key="frame" x="0.0" y="0.0" width="1024" height="200"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="B2c-MF-Aag">
+                                                <rect key="frame" x="0.0" y="0.0" width="1024" height="200"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </view>
+                                            <vibrancyEffect>
+                                                <blurEffect style="light"/>
+                                            </vibrancyEffect>
+                                        </visualEffectView>
+                                    </subviews>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cSr-rs-KZT">
                                 <rect key="frame" x="0.0" y="106" width="1024" height="662"/>
                                 <subviews>

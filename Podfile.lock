@@ -1,16 +1,20 @@
 PODS:
+  - DynamicBlurView (4.0.0)
   - SwiftSoup (1.7.4)
 
 DEPENDENCIES:
+  - DynamicBlurView
   - SwiftSoup (~> 1.7.4)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - DynamicBlurView
     - SwiftSoup
 
 SPEC CHECKSUMS:
+  DynamicBlurView: ccf9acd2b20c883cc2c72e3524a04d8d3ee20533
   SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
 
-PODFILE CHECKSUM: 46e6221701de15a15c9e550d0f40bfe99f26f73f
+PODFILE CHECKSUM: e8e14ed4d21903ddd7ce34a9c571c22a1aad4b5b
 
 COCOAPODS: 1.7.2

@@ -6,42 +6,42 @@
             "streamURL": "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_p",
             "playlistURL": "https://onlineradiobox.com/uk/bbcradio1/playlist/",
             "imageAsset": "bbc_one",
-            "tileColor": "#000000",
+            "tileColor": "#000000"
         },
         {
             "name": "Triple J",
             "streamURL": "http://abcradiolivehls-lh.akamaihd.net/i/triplejnsw_1@327300/master.m3u8",
             "playlistURL": "https://onlineradiobox.com/au/abctriplej/",
             "imageAsset": "triplej",
-            "tileColor": "#E53227",
+            "tileColor": "#E53227"
         },
         {
             "name": "KEXP",
             "streamURL": "http://live-mp3-128.kexp.org/",
             "playlistURL": "https://onlineradiobox.com/us/kexpfm/",
             "imageAsset": "kexp",
-            "tileColor": "#F9A72F",
+            "tileColor": "#F9A72F"
         },
         {
             "name": "DR P3",
             "streamURL": "http://drradio3-lh.akamaihd.net/i/p3_9@143506/master.m3u8",
             "playlistURL": "https://onlineradiobox.com/dk/drp3/",
             "imageAsset": "p3",
-            "tileColor": "#829A9B",
+            "tileColor": "#829A9B"
         },
         {
             "name": "DR P6 Beat",
             "streamURL": "http://drradio3-lh.akamaihd.net/i/p6beat_9@143533/master.m3u8",
             "playlistURL": "https://onlineradiobox.com/dk/drp6beat/",
             "imageAsset": "p6",
-            "tileColor": "#48474D",
+            "tileColor": "#48474D"
         },
         {
             "name": "DR P7 Mix",
             "streamURL": "http://drradio1-lh.akamaihd.net/i/p7mix_9@143522/master.m3u8",
             "playlistURL": "https://onlineradiobox.com/dk/p7mix-dr/",
             "imageAsset": "p7",
-            "tileColor": "#1CA690",
-        },
+            "tileColor": "#1CA690"
+        }
     ]
 }
