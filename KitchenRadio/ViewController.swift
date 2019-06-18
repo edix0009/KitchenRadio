@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     
     // Control panel
     var currentStation: RadioStation?
+    var lastReset: Date?
     
     @IBOutlet weak var controlStackView: UIStackView!
     
@@ -38,6 +39,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        lastReset = Date()
+        
         stations = loadStationsFromJSON(from: "stations")
         currentStation = stations?.first
         
@@ -47,6 +50,7 @@ class ViewController: UIViewController {
         player = RadioPlayer(stations: stations!)
         
         controlStackView.addBackground()
+        controlStackView.addLine()
         //controlStackView.addBackground(color: hexStringToUIColor(hex: "#1B1B1B"))
         
         dateFormatter.dateFormat = "HH:mm"
@@ -63,40 +67,45 @@ class ViewController: UIViewController {
         gesture.numberOfTapsRequired = 3
         container.addGestureRecognizer(gesture)
         
+        
+        
     }
     
     @objc func tick() {
+        
         clockLabel.text = dateFormatter.string(from: Date())
-        
-//        let trackinfo = NowPlayingInfo.getTrackInfo(url: (self.currentStation?.playlistURL)!)!
-//        FRadioAPI.getArtwork(for: trackinfo, size: 300, completionHandler: self.setArtwork(url:artist:track:))
-        if workItem != nil {
-            workItem!.cancel()
-        }
-        
-        workItem = DispatchWorkItem {
-            
-            let trackinfo = NowPlayingInfo.getTrackInfo(url: (self.currentStation?.playlistURL)!)!
-            FRadioAPI.getArtwork(for: trackinfo, size: 200, completionHandler: self.setArtwork(url:artist:track:))
-            
-            DispatchQueue.main.async {
-            
+
+            if workItem != nil {
+                workItem!.cancel()
             }
+
+            workItem = DispatchWorkItem {
+
+                let trackinfo = NowPlayingInfo.getTrackInfo(url: (self.currentStation?.playlistURL)!)!
+                FRadioAPI.getArtwork(for: trackinfo, size: 200, completionHandler: self.setArtwork(url:artist:track:))
+
+                DispatchQueue.main.async {
+
+                }
+            }
+
+            DispatchQueue.global().async(execute: workItem!)
+
         }
-        
-        DispatchQueue.global().async(execute: workItem!)
-        
-    }
-    
+
     func setArtwork(url: URL?, artist: String?, track: String?) {
         
-        DispatchQueue.main.async {
+        DispatchQueue.global().async {
             if (url != nil) {
                 self.downloadImage(from: url!)
             }
+        }
         
-            self.artistLabel.text = artist
-            self.songLabel.text = track
+        DispatchQueue.main.async {
+            if (artist != nil && track != nil) {
+                self.artistLabel.text = artist
+                self.songLabel.text = track
+            }
         }
         
     }
@@ -177,13 +186,19 @@ class ViewController: UIViewController {
         self.player?.play(program: sender.tag)
         self.setNowPlayingIndicator(button: sender)
         
-        tick()
+        if (Date().timeIntervalSince(lastReset!) > 6) {
+            tick()
+        }
+        
+        lastReset = Date()
     }
     
+    
     func setNowPlayingIndicator(button: UIButton) {
-        stationButtons?.forEach {$0.titleLabel?.text = ""}
         button.titleLabel?.text = "·"
+        stationButtons?.forEach {$0.titleLabel?.text = ""}
     }
+    
     
     func loadStationsFromJSON(from: String) -> [RadioStation]? {
         var stations:[RadioStation]?
@@ -197,9 +212,9 @@ class ViewController: UIViewController {
             }
             stations = stationsArray
         }
-        
         return stations
     }
+    
 
     private func getSubviewsOf<T : UIView>(view:UIView) -> [T] {
         var subviews = [T]()
@@ -214,6 +229,7 @@ class ViewController: UIViewController {
         
         return subviews
     }
+    
     
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -260,41 +276,21 @@ extension UIImage {
     }
 }
 
-extension UIButton {
-    func loadingIndicator(_ show: Bool) {
-        let tag = 808404
-        if show {
-            self.isEnabled = false
-            self.alpha = 0.5
-            let indicator = UIActivityIndicatorView()
-            let buttonHeight = self.bounds.size.height
-            let buttonWidth = self.bounds.size.width
-            indicator.center = CGPoint(x: buttonWidth/2, y: buttonHeight/2)
-            indicator.tag = tag
-            self.addSubview(indicator)
-            indicator.startAnimating()
-        } else {
-            self.isEnabled = true
-            self.alpha = 1.0
-            if let indicator = self.viewWithTag(tag) as? UIActivityIndicatorView {
-                indicator.stopAnimating()
-                indicator.removeFromSuperview()
-            }
-        }
-    }
-}
-
-//extension UIStackView {
-//    func addBackground(color: UIColor) {
-//        let subView = UIView(frame: bounds)
-//        subView.backgroundColor = color
-//        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        insertSubview(subView, at: 0)
-//    }
-//}
-
 extension UIStackView {
 
+    func addLine() {
+        let lineView = UIView()
+        
+        let lineHeight: CGFloat = 2.0
+        lineView.frame = CGRect(x: 0, y: frame.height-lineHeight, width: frame.width, height: lineHeight)
+        
+        lineView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        lineView.backgroundColor = .white
+        lineView.alpha = 0.1
+        
+        addSubview(lineView)
+    }
+    
     func addBackground() {
         let subView = UIImageView(frame: bounds)
         subView.image = UIImage(named: "download-1")
@@ -302,10 +298,10 @@ extension UIStackView {
         
         let blurView = DynamicBlurView(frame: bounds)
         blurView.trackingMode = .common
-        blurView.blurRadius = 45
+        blurView.blurRadius = 50
         blurView.iterations = 9
         blurView.blendMode = .multiply
-        blurView.blendColor = UIColor.black.withAlphaComponent(0.4)
+        blurView.blendColor = UIColor.black.withAlphaComponent(0.45)
 
         
         subView.addSubview(blurView)
@@ -315,30 +311,7 @@ extension UIStackView {
     
     func setBackground(image: UIImage) {
         let imageview = self.subviews.first{$0 is UIImageView} as! UIImageView
-        imageview.image = image.withSaturationAdjustment(byVal: 3.0)
-    }
-}
-
-
-
-extension UIImageView {
-    func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
-        contentMode = mode
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async() {
-                self.image = image
-            }
-            }.resume()
-    }
-    func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
-        guard let url = URL(string: link) else { return }
-        downloaded(from: url, contentMode: mode)
+        imageview.image = image.withSaturationAdjustment(byVal: 2.0)
     }
 }
 
