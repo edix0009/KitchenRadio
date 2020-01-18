@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "KitchenRadio/ViewController.swift"
-            timestampString = "582593544.448882"
+            timestampString = "588463014.621322"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "160"
             endingLineNumber = "160"
-            landmarkName = "panDetected(sender:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "KitchenRadio/ViewController.swift"
-            timestampString = "582593544.449491"
+            timestampString = "588463014.6216739"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
-            landmarkName = "tick()"
+            landmarkName = "panDetected(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
