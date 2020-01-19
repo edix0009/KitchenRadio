@@ -31,9 +31,9 @@ class RadioPlayer  {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {}
         
-        streams = stations.map { AVPlayer(url: URL.init(string: $0.streamURL)!) }
+        streams = stations.map{AVPlayer(url: URL.init(string: $0.streamURL)!)}
         streams?.forEach{$0.play(); $0.isMuted = true}
-        
+    
     }
 
     @objc func playerItemFailedToPlay(_ notification: Notification) {

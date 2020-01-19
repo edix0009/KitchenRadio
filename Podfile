@@ -8,5 +8,6 @@ target 'KitchenRadio' do
   # Pods for KitchenRadio
   pod 'SwiftSoup', '~> 1.7.4'
   pod 'DynamicBlurView'
+  pod 'FRadioPlayer'
 
 end

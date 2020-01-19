@@ -1,20 +1,24 @@
 PODS:
   - DynamicBlurView (4.0.0)
+  - FRadioPlayer (0.1.10)
   - SwiftSoup (1.7.4)
 
 DEPENDENCIES:
   - DynamicBlurView
+  - FRadioPlayer
   - SwiftSoup (~> 1.7.4)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - DynamicBlurView
+    - FRadioPlayer
     - SwiftSoup
 
 SPEC CHECKSUMS:
   DynamicBlurView: ccf9acd2b20c883cc2c72e3524a04d8d3ee20533
+  FRadioPlayer: f803d7b2ad83d5ccbc988ab88d490f4e6489e1fa
   SwiftSoup: 92f5b348c131aed8af04f4326db1579ab19fa08c
 
-PODFILE CHECKSUM: e8e14ed4d21903ddd7ce34a9c571c22a1aad4b5b
+PODFILE CHECKSUM: 06d7cf9075b5e6056dfc607fc13aa9c08cbf7dd6
 
-COCOAPODS: 1.7.2
+COCOAPODS: 1.8.4
