@@ -15,9 +15,13 @@ class ViewController: UIViewController {
     var player: RadioPlayer?
     var stationButtons: [UIButton]?
     var stations: [RadioStation]?
+    var currentStation: Int?
+    var timer = Timer()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("stated :)")
         stations = loadStationsFromJSON(from: "stations")
         
         stationButtons = getSubviewsOf(view: buttonCollaction).filter{$0 is UIButton}
@@ -32,21 +36,27 @@ class ViewController: UIViewController {
         
         
         // Three finger tap gesture to reset stations
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTap(sender:)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTap))
         gesture.numberOfTapsRequired = 3
         container.addGestureRecognizer(gesture)
-        
+     
+        scheduledRadioReset()
     }
     
-    @objc func handleThreeFingerTap(sender: UITapGestureRecognizer) {
+    func scheduledRadioReset(){
+        timer = Timer.scheduledTimer(timeInterval: 18000, target: self, selector: #selector(handleThreeFingerTap), userInfo: nil, repeats: true)
+    }
+    
+    @objc func handleThreeFingerTap() {
         player?.reset(stations: stations!)
+        player?.play(program: currentStation ?? 1)
         
-        let touchPoint = sender.location(in: self.view)
-        
-        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
-
-        player?.play(program: selectedProgram!.tag)
-        setNowPlayingIndicator(button: selectedProgram!)
+//        let touchPoint = sender.location(in: self.view)
+//
+//        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
+//
+//        player?.play(program: selectedProgram!.tag)
+//        setNowPlayingIndicator(button: selectedProgram!)
     }
     
     func initProgramButtons(buttons: [UIButton], stations: [RadioStation]) {
@@ -91,7 +101,9 @@ class ViewController: UIViewController {
     
     
     @IBAction func programTouched(_ sender: UIButton) {
+        print(1)
         player?.play(program: sender.tag)
+        currentStation = sender.tag
         setNowPlayingIndicator(button: sender)
     }
     
