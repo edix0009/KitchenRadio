@@ -16,6 +16,9 @@ class ViewController: UIViewController {
     var player: RadioPlayer?
     var stationButtons: [UIButton]?
     var stations: [RadioStation]?
+    var currentStation: Int?
+    var timer = Timer()
+
     
     var workItem: DispatchWorkItem?
     
@@ -38,9 +41,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        lastReset = Date()
-        
+        print("stated :)")
         stations = loadStationsFromJSON(from: "stations")
         currentStation = stations?.first
         
@@ -63,51 +64,21 @@ class ViewController: UIViewController {
         
         
         // Three finger tap gesture to reset stations
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTap(sender:)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTap))
         gesture.numberOfTapsRequired = 3
         container.addGestureRecognizer(gesture)
         
-        
-        
     }
     
-    @objc func tick() {
+    @objc func handleThreeFingerTap(sender: UITapGestureRecognizer) {
+        player?.reset(stations: stations!)
         
-        clockLabel.text = dateFormatter.string(from: Date())
-
-            if workItem != nil {
-                workItem!.cancel()
-            }
-
-            workItem = DispatchWorkItem {
-
-                let trackinfo = NowPlayingInfo.getTrackInfo(url: (self.currentStation?.playlistURL)!)!
-                FRadioAPI.getArtwork(for: trackinfo, size: 200, completionHandler: self.setArtwork(url:artist:track:))
-
-                DispatchQueue.main.async {
-
-                }
-            }
-
-            DispatchQueue.global().async(execute: workItem!)
-
-        }
-
-    func setArtwork(url: URL?, artist: String?, track: String?) {
+        let touchPoint = sender.location(in: self.view)
         
-        DispatchQueue.global().async {
-            if (url != nil) {
-                self.downloadImage(from: url!)
-            }
-        }
-        
-        DispatchQueue.main.async {
-            if (artist != nil && track != nil) {
-                self.artistLabel.text = artist
-                self.songLabel.text = track
-            }
-        }
-        
+        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
+
+        player?.play(program: selectedProgram!.tag)
+        setNowPlayingIndicator(button: selectedProgram!)
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
@@ -181,16 +152,8 @@ class ViewController: UIViewController {
     
     
     @IBAction func programTouched(_ sender: UIButton) {
-        
-        self.currentStation = self.stations![sender.tag]
-        self.player?.play(program: sender.tag)
-        self.setNowPlayingIndicator(button: sender)
-        
-        if (Date().timeIntervalSince(lastReset!) > 6) {
-            tick()
-        }
-        
-        lastReset = Date()
+        player?.play(program: sender.tag)
+        setNowPlayingIndicator(button: sender)
     }
     
     
