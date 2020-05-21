@@ -23,11 +23,11 @@
             "tileColor": "#F9A72F"
         },
         {
-            "name": "DR P3",
-            "streamURL": "http://drradio3-lh.akamaihd.net/i/p3_9@143506/master.m3u8",
-            "playlistURL": "https://onlineradiobox.com/dk/drp3/",
-            "imageAsset": "p3",
-            "tileColor": "#829A9B"
+            "name": "NPR 88nine",
+            "streamURL": "https://wyms.streamguys1.com/live?platform=88nine",
+            "playlistURL": "NULL",
+            "imageAsset": "npr",
+            "tileColor": "#237BBD",
         },
         {
             "name": "DR P6 Beat",
