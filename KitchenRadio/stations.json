@@ -43,5 +43,26 @@
             "imageAsset": "thecurrent",
             "tileColor": "#1CA690",
         },
+        {
+            "name": "NOVA",
+            "streamURL": "https://novazz.ice.infomaniak.ch/novazz-128.mp3",
+            "playlistURL": "NULL",
+            "imageAsset": "nova",
+            "tileColor": "#F85453",
+        },
+        {
+            "name": "FIP Electro",
+            "streamURL": "https://stream.radiofrance.fr/fipelectro/fipelectro_hifi.m3u8?id=radiofrance",
+            "playlistURL": "NULL",
+            "imageAsset": "fip",
+            "tileColor": "#E2007A",
+        },
+        {
+            "name": "MOUV US RAP",
+            "streamURL": "https://stream.radiofrance.fr/mouvrapus/mouvrapus_hifi.m3u8?id=radiofrance",
+            "playlistURL": "NULL",
+            "imageAsset": "mouv",
+            "tileColor": "#82C9C5",
+        },
     ]
 }
