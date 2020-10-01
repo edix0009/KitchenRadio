@@ -62,8 +62,9 @@ class ViewController: UIViewController {
     func initProgramButtons(buttons: [UIButton], stations: [RadioStation]) {
         
         for (index, button) in buttons.enumerated() {
+            let buttonWidth = button.frame.size.width
+            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: buttonWidth/360)
             
-            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: 0.95)
             
             button.setImage(programImage, for: .normal)
             button.backgroundColor = hexStringToUIColor(hex: stations[index].tileColor)
