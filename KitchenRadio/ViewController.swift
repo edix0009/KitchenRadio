@@ -8,6 +8,7 @@ class ViewController: UIViewController {
     var slideGesture = UIPanGestureRecognizer()
     
     
+    @IBOutlet weak var bg: UIImageView!
     @IBOutlet weak var buttonCollaction: UIStackView!
     @IBOutlet var container: UIView!
     
@@ -24,7 +25,7 @@ class ViewController: UIViewController {
         print("stated :)")
         stations = loadStationsFromJSON(from: "stations")
         
-        stationButtons = getSubviewsOf(view: buttonCollaction).filter{$0 is UIButton}
+        stationButtons = getSubviewsOf(view: self.container).filter{$0 is UIButton}
             initProgramButtons(buttons: stationButtons!, stations: stations!)
         
         player = RadioPlayer(stations: stations!)
@@ -46,6 +47,7 @@ class ViewController: UIViewController {
     func scheduledRadioReset(){
         timer = Timer.scheduledTimer(timeInterval: 18000, target: self, selector: #selector(handleThreeFingerTap), userInfo: nil, repeats: true)
     }
+
     
     @objc func handleThreeFingerTap() {
         player?.reset(stations: stations!)
@@ -106,11 +108,37 @@ class ViewController: UIViewController {
         player?.play(program: sender.tag)
         currentStation = sender.tag
         setNowPlayingIndicator(button: sender)
+        
+        stationButtons?.forEach { setButtonShadow(button: $0, opacity: 0.15, blur: 10) }
+        setButtonShadow(button: sender)
     }
     
+    func setButtonShadow(button: UIButton, opacity: Float = 0.36, blur: CGFloat = 20.0) {
+        
+        UIView.transition(with: button,
+                          duration: 0.2,
+                          options: .transitionCrossDissolve,
+                          animations: {
+                            button.layer.shadowColor = UIColor.black.cgColor
+                            button.layer.shadowOffset = CGSize(width: 0.0, height: 6.0)
+                            button.layer.shadowRadius = blur
+                            button.layer.shadowOpacity = opacity
+                          },
+                          completion: nil)
+    }
+    
+    
     func setNowPlayingIndicator(button: UIButton) {
-        stationButtons?.forEach {$0.titleLabel?.text = ""}
-        button.titleLabel?.text = "__"
+
+        UIView.transition(with: self.bg,
+                          duration: 0.40,
+                          options: .transitionCrossDissolve,
+                          animations: {
+                            self.bg.image? = (self.bg.image?.tintImage(with: button.backgroundColor!.lighter(by: 35.0)!))!
+                            
+                          },
+                          completion: nil)
+        
     }
     
     func loadStationsFromJSON(from: String) -> [RadioStation]? {
@@ -208,6 +236,88 @@ extension UIButton {
                 indicator.stopAnimating()
                 indicator.removeFromSuperview()
             }
+        }
+    }
+}
+
+public extension UIImage {
+
+    /// Tint, Colorize image with given tint color
+    /// This is similar to Photoshop's "Color" layer blend mode
+    /// This is perfect for non-greyscale source images, and images that
+    /// have both highlights and shadows that should be preserved<br><br>
+    /// white will stay white and black will stay black as the lightness of
+    /// the image is preserved
+    ///
+    /// - Parameter TintColor: Tint color
+    /// - Returns:  Tinted image
+    public func tintImage(with fillColor: UIColor) -> UIImage {
+        
+        return modifiedImage { context, rect in
+            // draw black background - workaround to preserve color of partially transparent pixels
+            context.setBlendMode(.normal)
+            UIColor.black.setFill()
+            context.fill(rect)
+            
+            // draw original image
+            context.setBlendMode(.normal)
+            context.draw(cgImage!, in: rect)
+            
+            // tint image (loosing alpha) - the luminosity of the original image is preserved
+            context.setBlendMode(.color)
+            fillColor.setFill()
+            context.fill(rect)
+            
+            // mask by alpha values of original image
+            context.setBlendMode(.destinationIn)
+            context.draw(context.makeImage()!, in: rect)
+        }
+    }
+    
+    /// Modified Image Context, apply modification on image
+    ///
+    /// - Parameter draw: (CGContext, CGRect) -> ())
+    /// - Returns:        UIImage
+    fileprivate func modifiedImage(_ draw: (CGContext, CGRect) -> ()) -> UIImage {
+        
+        // using scale correctly preserves retina images
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        let context: CGContext! = UIGraphicsGetCurrentContext()
+        assert(context != nil)
+        
+        // correctly rotate image
+        context.translateBy(x: 0, y: size.height)
+        context.scaleBy(x: 1.0, y: -1.0)
+        
+        let rect = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
+        
+        draw(context, rect)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
+    }
+}
+
+extension UIColor {
+
+    func lighter(by percentage: CGFloat = 30.0) -> UIColor? {
+        return self.adjust(by: abs(percentage) )
+    }
+
+    func darker(by percentage: CGFloat = 30.0) -> UIColor? {
+        return self.adjust(by: -1 * abs(percentage) )
+    }
+
+    func adjust(by percentage: CGFloat = 30.0) -> UIColor? {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            return UIColor(red: min(red + percentage/100, 1.0),
+                           green: min(green + percentage/100, 1.0),
+                           blue: min(blue + percentage/100, 1.0),
+                           alpha: alpha)
+        } else {
+            return nil
         }
     }
 }

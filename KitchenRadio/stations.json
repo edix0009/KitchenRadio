@@ -2,46 +2,11 @@
     "station":
     [
         {
-            "name": "BBC Radio One",
-            "streamURL": "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_p",
+            "name": "FIP Electro",
+            "streamURL": "https://stream.radiofrance.fr/fipelectro/fipelectro_hifi.m3u8?id=radiofrance",
             "playlistURL": "NULL",
-            "imageAsset": "bbc_one",
+            "imageAsset": "fip",
             "tileColor": "#000000",
-        },
-        {
-            "name": "Triple J",
-            "streamURL": "http://abcradiolivehls-lh.akamaihd.net/i/triplejnsw_1@327300/master.m3u8",
-            "playlistURL": "NULL",
-            "imageAsset": "triplej",
-            "tileColor": "#E53227",
-        },
-        {
-            "name": "KEXP",
-            "streamURL": "http://live-mp3-128.kexp.org/",
-            "playlistURL": "NULL",
-            "imageAsset": "kexp",
-            "tileColor": "#F9A72F",
-        },
-        {
-            "name": "NPR 88nine",
-            "streamURL": "https://wyms.streamguys1.com/live?platform=88nine",
-            "playlistURL": "NULL",
-            "imageAsset": "npr",
-            "tileColor": "#237BBD",
-        },
-        {
-            "name": "DR P6 Beat",
-            "streamURL": "http://drradio3-lh.akamaihd.net/i/p6beat_9@143533/master.m3u8",
-            "playlistURL": "NULL",
-            "imageAsset": "p6",
-            "tileColor": "#48474D",
-        },
-        {
-            "name": "The Current",
-            "streamURL": "https://current.stream.publicradio.org/kcmp.aac",
-            "playlistURL": "NULL",
-            "imageAsset": "thecurrent",
-            "tileColor": "#1CA690",
         },
         {
             "name": "NOVA",
@@ -51,18 +16,11 @@
             "tileColor": "#F85453",
         },
         {
-            "name": "FIP Electro",
-            "streamURL": "https://stream.radiofrance.fr/fipelectro/fipelectro_hifi.m3u8?id=radiofrance",
-            "playlistURL": "NULL",
-            "imageAsset": "fip",
-            "tileColor": "#E2007A",
-        },
-        {
             "name": "MOUV US RAP",
             "streamURL": "https://stream.radiofrance.fr/mouvrapus/mouvrapus_hifi.m3u8?id=radiofrance",
             "playlistURL": "NULL",
             "imageAsset": "mouv",
             "tileColor": "#82C9C5",
-        },
+        }
     ]
 }
