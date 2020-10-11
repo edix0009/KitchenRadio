@@ -113,7 +113,7 @@ class ViewController: UIViewController {
         setButtonShadow(button: sender)
     }
     
-    func setButtonShadow(button: UIButton, opacity: Float = 0.36, blur: CGFloat = 20.0) {
+    func setButtonShadow(button: UIButton, opacity: Float = 0.42, blur: CGFloat = 25.0) {
         
         UIView.transition(with: button,
                           duration: 0.2,
