@@ -2,24 +2,31 @@
     "station":
     [
         {
-            "name": "FIP Electro",
-            "streamURL": "https://stream.radiofrance.fr/fipelectro/fipelectro_hifi.m3u8?id=radiofrance",
+            "name": "Senarai main VBX Radio",
+            "streamURL": "https://stream.lumy.bzh/radio/8010/vbx-320.mp3?1594367012",
             "playlistURL": "NULL",
             "imageAsset": "fip",
             "tileColor": "#000000",
         },
         {
-            "name": "NOVA",
-            "streamURL": "https://novazz.ice.infomaniak.ch/novazz-128.mp3",
+            "name": "Forty4",
+            "streamURL": "https://forty4fm.stream.laut.fm/forty4fm",
             "playlistURL": "NULL",
             "imageAsset": "nova",
             "tileColor": "#F85453",
         },
         {
-            "name": "MOUV US RAP",
-            "streamURL": "https://stream.radiofrance.fr/mouvrapus/mouvrapus_hifi.m3u8?id=radiofrance",
+            "name": "1. FM (GORILLA)",
+            "streamURL": "https://strmreg.1.fm/gorillafm_mobile_mp3",
             "playlistURL": "NULL",
-            "imageAsset": "mouv",
+            "imageAsset": "1fm",
+            "tileColor": "#F0A45B",
+        },
+        {
+            "name": "Hitmixradio Hip Hop",
+            "streamURL": "https://streamingp.shoutcast.com/hotmixradio-hiphop-128.mp3",
+            "playlistURL": "NULL",
+            "imageAsset": "hiphop",
             "tileColor": "#82C9C5",
         }
     ]
