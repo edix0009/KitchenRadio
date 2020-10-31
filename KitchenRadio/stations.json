@@ -2,11 +2,11 @@
     "station":
     [
         {
-            "name": "Senarai main VBX Radio",
-            "streamURL": "https://stream.lumy.bzh/radio/8010/vbx-320.mp3?1594367012",
+            "name": "STUDIO 21",
+            "streamURL": "https://icecast-studio21.cdnvideo.ru/S21_1",
             "playlistURL": "NULL",
             "imageAsset": "fip",
-            "tileColor": "#000000",
+            "tileColor": "#515151",
         },
         {
             "name": "Forty4",

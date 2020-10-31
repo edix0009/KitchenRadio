@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17502"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,9 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="6sO-LY-lEc">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d53-BK-Fa3">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                            </imageView>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-1F-feK">
                                 <rect key="frame" x="238" y="114" width="250" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -72,15 +75,9 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6sO-LY-lEc" secondAttribute="trailing" id="2nA-bJ-yhy"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6sO-LY-lEc" secondAttribute="bottom" id="CKv-HM-OMe"/>
-                            <constraint firstItem="6sO-LY-lEc" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="CYA-V6-Awu"/>
-                            <constraint firstItem="6sO-LY-lEc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gPa-q7-kYE"/>
-                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="bg" destination="6sO-LY-lEc" id="InR-zZ-XtC"/>
+                        <outlet property="bgView" destination="d53-BK-Fa3" id="Hfx-rV-aWW"/>
                         <outlet property="container" destination="8bC-Xf-vdC" id="lLL-lX-zzf"/>
                     </connections>
                 </viewController>
@@ -91,7 +88,9 @@
     </scenes>
     <resources>
         <image name="bbc_one" width="231" height="231"/>
-        <image name="bg" width="512" height="384"/>
         <image name="triplej" width="231" height="231"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

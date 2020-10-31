@@ -109,11 +109,11 @@ class ViewController: UIViewController {
         currentStation = sender.tag
         setNowPlayingIndicator(button: sender)
         
-        stationButtons?.forEach { setButtonShadow(button: $0, opacity: 0.15, blur: 10) }
+        stationButtons?.forEach { setButtonShadow(button: $0, opacity: 0.13, blur: 10) }
         setButtonShadow(button: sender)
     }
     
-    func setButtonShadow(button: UIButton, opacity: Float = 0.42, blur: CGFloat = 25.0) {
+    func setButtonShadow(button: UIButton, opacity: Float = 0.5, blur: CGFloat = 30.0) {
         
         UIView.transition(with: button,
                           duration: 0.2,
@@ -127,17 +127,18 @@ class ViewController: UIViewController {
                           completion: nil)
     }
     
+    @IBOutlet weak var bgView: UIView!
     
     func setNowPlayingIndicator(button: UIButton) {
-
-        UIView.transition(with: self.bg,
-                          duration: 0.40,
-                          options: .transitionCrossDissolve,
-                          animations: {
-                            self.bg.image? = (self.bg.image?.tintImage(with: button.backgroundColor!.lighter(by: 35.0)!))!
-                            
-                          },
-                          completion: nil)
+        self.bgView.backgroundColor = button.backgroundColor!
+//        UIView.transition(with: self.bgView,
+//                          duration: 0.40,
+//                          options: .transitionCrossDissolve,
+//                          animations: {
+//                            self.bgView.backgroundColor = button.backgroundColor!
+//                            //self.bg.image? = (self.bg.image?.tintImage(with: button.backgroundColor!.lighter(by: 35.0)!))!
+//                          },
+//                          completion: nil)
         
     }
     
