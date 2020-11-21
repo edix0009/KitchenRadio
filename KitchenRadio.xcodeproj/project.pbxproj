@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		701FD4BA5ABCD364FACFA7AE /* Pods_KitchenRadio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502D7A5C65C97B568C124FE6 /* Pods_KitchenRadio.framework */; };
+		EB4EA0C6255C5A9000A5AFBF /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EA0C5255C5A9000A5AFBF /* Track.swift */; };
+		EB4EA0CA2566F05000A5AFBF /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EA0C92566F04F00A5AFBF /* NowPlaying.swift */; };
+		EB4EA0D125674F6C00A5AFBF /* ItunesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4EA0D025674F6C00A5AFBF /* ItunesAPI.swift */; };
 		EB77D73A22A7D7B200BEA162 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = EB77D73922A7D7B200BEA162 /* stations.json */; };
 		EB77D73C22A7DA9800BEA162 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73B22A7DA9800BEA162 /* DataManager.swift */; };
 		EB77D73E22A7DB2600BEA162 /* RadioStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73D22A7DB2600BEA162 /* RadioStation.swift */; };
@@ -19,6 +23,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		502D7A5C65C97B568C124FE6 /* Pods_KitchenRadio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KitchenRadio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		544DE2103A4231817C24E30C /* Pods-KitchenRadio.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KitchenRadio.release.xcconfig"; path = "Target Support Files/Pods-KitchenRadio/Pods-KitchenRadio.release.xcconfig"; sourceTree = "<group>"; };
+		EB4EA0C5255C5A9000A5AFBF /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		EB4EA0C92566F04F00A5AFBF /* NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlaying.swift; sourceTree = "<group>"; };
+		EB4EA0D025674F6C00A5AFBF /* ItunesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesAPI.swift; sourceTree = "<group>"; };
 		EB77D73922A7D7B200BEA162 /* stations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
 		EB77D73B22A7DA9800BEA162 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EB77D73D22A7DB2600BEA162 /* RadioStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioStation.swift; sourceTree = "<group>"; };
@@ -30,6 +39,7 @@
 		EBF9E88722A6FF8600CB3606 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBF9E88A22A6FF8600CB3606 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EBF9E88C22A6FF8600CB3606 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EC4163C47211A8F3C722C415 /* Pods-KitchenRadio.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KitchenRadio.debug.xcconfig"; path = "Target Support Files/Pods-KitchenRadio/Pods-KitchenRadio.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,17 +47,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				701FD4BA5ABCD364FACFA7AE /* Pods_KitchenRadio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		95E5F935879B34E67155415D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				502D7A5C65C97B568C124FE6 /* Pods_KitchenRadio.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EBF9E87422A6FF8500CB3606 = {
 			isa = PBXGroup;
 			children = (
 				EBF9E87F22A6FF8500CB3606 /* KitchenRadio */,
 				EBF9E87E22A6FF8500CB3606 /* Products */,
+				F7879EF7698E943FC571E871 /* Pods */,
+				95E5F935879B34E67155415D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -72,8 +93,20 @@
 				EBF9E88922A6FF8600CB3606 /* LaunchScreen.storyboard */,
 				EBF9E88C22A6FF8600CB3606 /* Info.plist */,
 				EB77D73922A7D7B200BEA162 /* stations.json */,
+				EB4EA0C5255C5A9000A5AFBF /* Track.swift */,
+				EB4EA0C92566F04F00A5AFBF /* NowPlaying.swift */,
+				EB4EA0D025674F6C00A5AFBF /* ItunesAPI.swift */,
 			);
 			path = KitchenRadio;
+			sourceTree = "<group>";
+		};
+		F7879EF7698E943FC571E871 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EC4163C47211A8F3C722C415 /* Pods-KitchenRadio.debug.xcconfig */,
+				544DE2103A4231817C24E30C /* Pods-KitchenRadio.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,9 +116,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EBF9E88F22A6FF8600CB3606 /* Build configuration list for PBXNativeTarget "KitchenRadio" */;
 			buildPhases = (
+				E539894E4159674DF0F83157 /* [CP] Check Pods Manifest.lock */,
 				EBF9E87922A6FF8500CB3606 /* Sources */,
 				EBF9E87A22A6FF8500CB3606 /* Frameworks */,
 				EBF9E87B22A6FF8500CB3606 /* Resources */,
+				0D8046018A99D63720B093C9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -143,6 +178,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0D8046018A99D63720B093C9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KitchenRadio/Pods-KitchenRadio-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-KitchenRadio/Pods-KitchenRadio-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-KitchenRadio/Pods-KitchenRadio-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E539894E4159674DF0F83157 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KitchenRadio-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EBF9E87922A6FF8500CB3606 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -150,9 +227,12 @@
 			files = (
 				EBF9E88322A6FF8500CB3606 /* ViewController.swift in Sources */,
 				EB77D73C22A7DA9800BEA162 /* DataManager.swift in Sources */,
+				EB4EA0CA2566F05000A5AFBF /* NowPlaying.swift in Sources */,
 				EB77D73E22A7DB2600BEA162 /* RadioStation.swift in Sources */,
+				EB4EA0D125674F6C00A5AFBF /* ItunesAPI.swift in Sources */,
 				EBF9E88122A6FF8500CB3606 /* AppDelegate.swift in Sources */,
 				EB77D74022A7FF9500BEA162 /* RadioPlayer.swift in Sources */,
+				EB4EA0C6255C5A9000A5AFBF /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +376,7 @@
 		};
 		EBF9E89022A6FF8600CB3606 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC4163C47211A8F3C722C415 /* Pods-KitchenRadio.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -315,6 +396,7 @@
 		};
 		EBF9E89122A6FF8600CB3606 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 544DE2103A4231817C24E30C /* Pods-KitchenRadio.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
