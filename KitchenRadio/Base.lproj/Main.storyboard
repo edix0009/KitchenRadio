@@ -20,7 +20,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d53-BK-Fa3">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gO9-1F-feK">
                                 <rect key="frame" x="238" y="114" width="250" height="250"/>
@@ -33,17 +33,6 @@
                                 </state>
                                 <connections>
                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="zzQ-Hj-dHu"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" tag="1" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLy-3v-94g">
-                                <rect key="frame" x="536" y="114" width="250" height="250"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="63"/>
-                                <inset key="titleEdgeInsets" minX="-600" minY="255" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="bbc_one"/>
-                                <connections>
-                                    <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="Vz6-6p-YP9"/>
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ufo-X5-CHO">
@@ -59,6 +48,17 @@
                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="1TB-7F-uYE"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="1" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLy-3v-94g">
+                                <rect key="frame" x="536" y="114" width="250" height="250"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.52549019610000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="63"/>
+                                <inset key="titleEdgeInsets" minX="-600" minY="255" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="bbc_one"/>
+                                <connections>
+                                    <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="Vz6-6p-YP9"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" tag="3" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JDJ-ZF-eec">
                                 <rect key="frame" x="535" y="405" width="250" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -72,13 +72,56 @@
                                     <action selector="programTouched:" destination="BYZ-38-t0r" eventType="touchDown" id="w8M-Nf-Iu8"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" tag="-1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4T-oB-5Ar">
+                                <rect key="frame" x="894" y="642" width="72" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.16225158062177836" green="0.16225158062177836" blue="0.16225158062177836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.13043905041881443" green="0.13043905041881443" blue="0.13043905041881443" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="getSong:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jqy-dM-E27"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kDj-YD-yag">
+                                <rect key="frame" x="555" y="513" width="411" height="106"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LeC-hI-t06">
+                                        <rect key="frame" x="16" y="15" width="76" height="76"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tame Impala" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4s-IP-cmu">
+                                        <rect key="frame" x="110" y="24" width="291" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <color key="textColor" red="0.1622515806" green="0.1622515806" blue="0.1622515806" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="The less I know the better" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VSN-qX-EqK">
+                                        <rect key="frame" x="110" y="58" width="291" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.1622515806" green="0.1622515806" blue="0.1622515806" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
+                        <outlet property="artistLabel" destination="U4s-IP-cmu" id="ML1-hg-cIh"/>
+                        <outlet property="artworkView" destination="LeC-hI-t06" id="1ic-zz-d7k"/>
                         <outlet property="bgView" destination="d53-BK-Fa3" id="Hfx-rV-aWW"/>
                         <outlet property="container" destination="8bC-Xf-vdC" id="lLL-lX-zzf"/>
+                        <outlet property="getSongButton" destination="i4T-oB-5Ar" id="yyw-dr-xGw"/>
+                        <outlet property="nowPlayingView" destination="kDj-YD-yag" id="jgn-pt-Ooz"/>
+                        <outlet property="trackLabel" destination="VSN-qX-EqK" id="IUa-ir-cIx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -91,6 +134,9 @@
         <image name="triplej" width="231" height="231"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

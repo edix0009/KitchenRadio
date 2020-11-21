@@ -1,6 +1,7 @@
 import UIKit
 import AVKit
 import MediaPlayer
+import SwiftSoup
 
 
 class ViewController: UIViewController {
@@ -18,15 +19,21 @@ class ViewController: UIViewController {
     var stations: [RadioStation]?
     var currentStation: Int?
     var timer = Timer()
+    var nowPLaying = NowPlaying()
 
+    @IBOutlet weak var nowPlayingView: UIView!
+    @IBOutlet weak var artworkView: UIView!
+    @IBOutlet weak var artistLabel: UILabel!
+    @IBOutlet weak var trackLabel: UILabel!
+    @IBOutlet weak var getSongButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("stated :)")
         stations = loadStationsFromJSON(from: "stations")
         
-        stationButtons = getSubviewsOf(view: self.container).filter{$0 is UIButton}
-            initProgramButtons(buttons: stationButtons!, stations: stations!)
+        stationButtons = getSubviewsOf(view: self.container).filter{$0.tag >= 0}
+        initProgramButtons(buttons: stationButtons!, stations: stations!)
         
         player = RadioPlayer(stations: stations!)
         
@@ -42,23 +49,118 @@ class ViewController: UIViewController {
         container.addGestureRecognizer(gesture)
      
         scheduledRadioReset()
+        
+        // init getSongButton
+        getSongButton.setImage(UIImage(named: "note")?.resized(withPercentage: 0.58), for: .normal)
+        getSongButton.layer.cornerRadius = 37
+        getSongButton.layer.shadowColor = UIColor.black.cgColor
+        getSongButton.layer.shadowOffset = CGSize(width: 0.0, height: 6.0)
+        getSongButton.layer.shadowRadius = 15.0
+        getSongButton.layer.shadowOpacity = 0.25
+        
+        nowPlayingView.layer.cornerRadius = 6
+        nowPlayingView.layer.shadowColor = UIColor.black.cgColor
+        nowPlayingView.layer.shadowOffset = CGSize(width: 0.0, height: 6.0)
+        nowPlayingView.layer.shadowRadius = 15.0
+        nowPlayingView.layer.shadowOpacity = 0.37
+        
+        artworkView.setBackgroundImage(img: UIImage(named: "currents")!)
+        artworkView.layer.cornerRadius = 3.0
+        artworkView.layer.shadowColor = UIColor.black.cgColor
+        artworkView.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+        artworkView.layer.shadowRadius = 4.0
+        artworkView.layer.shadowOpacity = 0.32
+        
+        nowPlayingView.isHidden = true
     }
+    
+
     
     func scheduledRadioReset(){
         timer = Timer.scheduledTimer(timeInterval: 18000, target: self, selector: #selector(handleThreeFingerTap), userInfo: nil, repeats: true)
     }
+    
+    @objc func hideNowPlayingView() {
+        self.toggleNowPlayingView(show: false)
+    }
 
+    @IBAction func getSong(_ sender: Any) {
+        
+        if (!self.nowPlayingView.isHidden) {
+            self.toggleNowPlayingView(show: false)
+            return
+        }
+        
+        getSongButton.loadingIndicator(true)
+        
+        let playlistURL = stations![currentStation ?? 0].playlistURL
+        NowPlaying.GetCurrentTrack(url: playlistURL) { (track) in
+            DispatchQueue.main.async {
+                self.artistLabel.text = track.artist
+                self.trackLabel.text = track.name
+            }
+            
+            let itunesQuery = track.name + " " + track.artist
+            ItunesAPI.getArtwork(for: itunesQuery, size: 900) { (url) in
+                DispatchQueue.global().async {
+                    let data = try? Data(contentsOf: url!)
+                    DispatchQueue.main.async { [self] in
+                        NSObject.cancelPreviousPerformRequests(withTarget: self)
+                        self.artworkView.setBackgroundImage(img: UIImage(data: data!)!)
+                        getSongButton.loadingIndicator(false)
+                        self.toggleNowPlayingView(show: self.nowPlayingView.isHidden)
+                        perform(#selector(hideNowPlayingView), with: nil, afterDelay: 15)
+                    }
+                }
+                
+            }
+            
+        }
+    }
+    
+    func toggleNowPlayingView(show: Bool) {
+        UIView.transition(with: nowPlayingView.superview!, duration: 0.4,
+                          options: .transitionCrossDissolve,
+                          animations: {
+                            self.nowPlayingView.isHidden = !show
+                      })
+    }
+    
+    func parsePlaylistHTML(content: String) {
+
+       do {
+
+           let doc = try SwiftSoup.parse(content)
+           let link: Element = try doc.getElementsByClass("active").first()!
+           let linkHref = try link.select("b")
+
+            print(try linkHref.text())
+       } catch let error {
+           print(error.localizedDescription)
+       }
+    
+        DispatchQueue.main.async {
+            // DO UI STUFF HERE
+        }
+    }
+    
+    func getPlaylistHTML(url: String) {
+        
+        let session = URLSession.shared
+        let url = URL(string: url)!
+        let task = session.dataTask(with: url) { data, response, error in
+            guard let loadedData = data else { return }
+            let content = String(data: loadedData, encoding: .utf8)
+            self.parsePlaylistHTML(content: content!)
+            
+        }
+        task.resume()
+        
+    }
     
     @objc func handleThreeFingerTap() {
         player?.reset(stations: stations!)
         player?.play(program: currentStation ?? 1)
-        
-//        let touchPoint = sender.location(in: self.view)
-//
-//        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
-//
-//        player?.play(program: selectedProgram!.tag)
-//        setNowPlayingIndicator(button: selectedProgram!)
     }
     
     func initProgramButtons(buttons: [UIButton], stations: [RadioStation]) {
@@ -67,14 +169,12 @@ class ViewController: UIViewController {
             let buttonWidth = button.frame.size.width
             let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: buttonWidth/360)
             
-            
             button.setImage(programImage, for: .normal)
             button.backgroundColor = hexStringToUIColor(hex: stations[index].tileColor)
             button.setTitleColor(UIColor.white, for: .highlighted)
             button.setTitleColor(UIColor.white, for: .focused)
             button.setTitleColor(UIColor.white, for: .selected)
             button.imageView?.contentMode = .scaleAspectFit
-            
         }
         
     }
@@ -83,12 +183,6 @@ class ViewController: UIViewController {
     @objc func panDetected(sender : UIPanGestureRecognizer) {
         
         let touchPoint = sender.location(in: self.view)
-        
-//        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
-//
-//        player?.play(program: selectedProgram!.tag)
-//        setNowPlayingIndicator(button: selectedProgram!)
-               
         let vol = AVAudioSession.sharedInstance().outputVolume
 
         if (touchPoint.x < (prev - 10)) {
@@ -98,8 +192,6 @@ class ViewController: UIViewController {
             if let view = volumeView.subviews.first as? UISlider { view.value = vol + 0.05}
             prev = touchPoint.x
         }
-        
-        
     }
     
     
@@ -111,16 +203,20 @@ class ViewController: UIViewController {
         
         stationButtons?.forEach { setButtonShadow(button: $0, opacity: 0.13, blur: 10) }
         setButtonShadow(button: sender)
+        
+        toggleNowPlayingView(show: false)
     }
     
-    func setButtonShadow(button: UIButton, opacity: Float = 0.5, blur: CGFloat = 30.0) {
+    
+    
+    func setButtonShadow(button: UIButton, opacity: Float = 0.4, blur: CGFloat = 20.0) {
         
         UIView.transition(with: button,
                           duration: 0.2,
                           options: .transitionCrossDissolve,
                           animations: {
                             button.layer.shadowColor = UIColor.black.cgColor
-                            button.layer.shadowOffset = CGSize(width: 0.0, height: 6.0)
+                            button.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
                             button.layer.shadowRadius = blur
                             button.layer.shadowOpacity = opacity
                           },
@@ -128,18 +224,8 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var bgView: UIView!
-    
     func setNowPlayingIndicator(button: UIButton) {
         self.bgView.backgroundColor = button.backgroundColor!
-//        UIView.transition(with: self.bgView,
-//                          duration: 0.40,
-//                          options: .transitionCrossDissolve,
-//                          animations: {
-//                            self.bgView.backgroundColor = button.backgroundColor!
-//                            //self.bg.image? = (self.bg.image?.tintImage(with: button.backgroundColor!.lighter(by: 35.0)!))!
-//                          },
-//                          completion: nil)
-        
     }
     
     func loadStationsFromJSON(from: String) -> [RadioStation]? {
@@ -241,93 +327,20 @@ extension UIButton {
     }
 }
 
-public extension UIImage {
-
-    /// Tint, Colorize image with given tint color
-    /// This is similar to Photoshop's "Color" layer blend mode
-    /// This is perfect for non-greyscale source images, and images that
-    /// have both highlights and shadows that should be preserved<br><br>
-    /// white will stay white and black will stay black as the lightness of
-    /// the image is preserved
-    ///
-    /// - Parameter TintColor: Tint color
-    /// - Returns:  Tinted image
-    public func tintImage(with fillColor: UIColor) -> UIImage {
-        
-        return modifiedImage { context, rect in
-            // draw black background - workaround to preserve color of partially transparent pixels
-            context.setBlendMode(.normal)
-            UIColor.black.setFill()
-            context.fill(rect)
-            
-            // draw original image
-            context.setBlendMode(.normal)
-            context.draw(cgImage!, in: rect)
-            
-            // tint image (loosing alpha) - the luminosity of the original image is preserved
-            context.setBlendMode(.color)
-            fillColor.setFill()
-            context.fill(rect)
-            
-            // mask by alpha values of original image
-            context.setBlendMode(.destinationIn)
-            context.draw(context.makeImage()!, in: rect)
-        }
-    }
-    
-    /// Modified Image Context, apply modification on image
-    ///
-    /// - Parameter draw: (CGContext, CGRect) -> ())
-    /// - Returns:        UIImage
-    fileprivate func modifiedImage(_ draw: (CGContext, CGRect) -> ()) -> UIImage {
-        
-        // using scale correctly preserves retina images
-        UIGraphicsBeginImageContextWithOptions(size, false, scale)
-        let context: CGContext! = UIGraphicsGetCurrentContext()
-        assert(context != nil)
-        
-        // correctly rotate image
-        context.translateBy(x: 0, y: size.height)
-        context.scaleBy(x: 1.0, y: -1.0)
-        
-        let rect = CGRect(x: 0.0, y: 0.0, width: size.width, height: size.height)
-        
-        draw(context, rect)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image!
-    }
-}
-
-extension UIColor {
-
-    func lighter(by percentage: CGFloat = 30.0) -> UIColor? {
-        return self.adjust(by: abs(percentage) )
-    }
-
-    func darker(by percentage: CGFloat = 30.0) -> UIColor? {
-        return self.adjust(by: -1 * abs(percentage) )
-    }
-
-    func adjust(by percentage: CGFloat = 30.0) -> UIColor? {
-        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
-        if self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
-            return UIColor(red: min(red + percentage/100, 1.0),
-                           green: min(green + percentage/100, 1.0),
-                           blue: min(blue + percentage/100, 1.0),
-                           alpha: alpha)
-        } else {
-            return nil
-        }
-    }
-}
-
 extension UIView{
     var globalFrame :CGRect? {
         return self.superview?.convert(self.frame, to: nil)
     }
 }
 
+extension UIView{
 
+    func setBackgroundImage(img: UIImage){
 
+        UIGraphicsBeginImageContext(self.frame.size)
+        img.draw(in: self.bounds)
+        let patternImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        self.backgroundColor = UIColor(patternImage: patternImage)
+    }
+}
