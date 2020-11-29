@@ -2,6 +2,15 @@ import UIKit
 import AVKit
 import MediaPlayer
 
+extension UIStackView {
+    func addBackground(color: UIColor) {
+        let subView = UIView(frame: bounds)
+        subView.backgroundColor = color
+        subView.layer.cornerRadius = 28
+        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        insertSubview(subView, at: 0)
+    }
+}
 
 class ViewController: UIViewController {
 
@@ -16,24 +25,29 @@ class ViewController: UIViewController {
     var player: RadioPlayer?
     var stationButtons: [UIButton]?
     var stations: [RadioStation]?
-    var currentStation: Int?
+    var currentStation: Int? = 1
     var timer = Timer()
 
+    @IBOutlet weak var menuBarStack: UIStackView!
+    @IBOutlet weak var wrapperViewAlbumArt: UIView!
+    @IBOutlet weak var albumArtworkView: UIImageView!
+    @IBOutlet weak var artistLabel: UILabel!
+    @IBOutlet weak var trackLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("stated :)")
         stations = loadStationsFromJSON(from: "stations")
         
-        stationButtons = getSubviewsOf(view: self.container).filter{$0 is UIButton}
-            initProgramButtons(buttons: stationButtons!, stations: stations!)
+        stationButtons = getSubviewsOf(view: self.container).filter{$0.tag >= 0}
+//        initProgramButtons(buttons: stationButtons!, stations: stations!)
         
         player = RadioPlayer(stations: stations!)
         
 
-        slideGesture = UIPanGestureRecognizer(target: self, action: #selector(panDetected(sender:)))
-        slideGesture.maximumNumberOfTouches = 1
-        container.addGestureRecognizer(slideGesture)
+//        slideGesture = UIPanGestureRecognizer(target: self, action: #selector(panDetected(sender:)))
+//        slideGesture.maximumNumberOfTouches = 1
+//        container.addGestureRecognizer(slideGesture)
         
         
         // Three finger tap gesture to reset stations
@@ -41,54 +55,119 @@ class ViewController: UIViewController {
         gesture.numberOfTapsRequired = 3
         container.addGestureRecognizer(gesture)
      
+        // Init timers
         scheduledRadioReset()
+        scheduledNowPlayingUpdate()
+        
+        // Init play buttons
+        menuBarStack.addBackground(color: UIColor.black.withAlphaComponent(0.60))
+        
+        getSubviewsOf(view: self.menuBarStack)
+            .filter{ $0 is UIButton }
+            .forEach({
+                ($0 as! UIButton).addTarget(self, action: "menuItemTouched:", for: .touchDown)
+            })
+        
+        // Init 'now playing' section
+        wrapperViewAlbumArt.clipsToBounds = false
+        wrapperViewAlbumArt.layer.cornerRadius = 10
+        wrapperViewAlbumArt.layer.masksToBounds = false
+        wrapperViewAlbumArt.layer.shadowColor = UIColor.black.cgColor
+        wrapperViewAlbumArt.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
+        wrapperViewAlbumArt.layer.shadowRadius = 30
+        wrapperViewAlbumArt.layer.shadowOpacity = 0.50
+        
+        albumArtworkView.clipsToBounds = true
+        albumArtworkView.layer.cornerRadius = 10
+    }
+
+    
+    @objc func menuItemTouched(_ sender: UIButton) {
+        print("Tocuhed! :D")
+        
+        getSubviewsOf(view: self.menuBarStack)
+            .filter{ $0 is UIButton }
+            .forEach{ resetMenuItemStyle(button: $0 as! UIButton) }
+        
+        sender.backgroundColor = UIColor.white
+        sender.layer.cornerRadius = 20
+        sender.layer.shadowColor = UIColor.black.cgColor
+        sender.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+        sender.layer.shadowRadius = 14
+        sender.layer.shadowOpacity = 0.46
+        sender.setTitleColor(UIColor.black.withAlphaComponent(0.70), for: .normal)
+        
+        player?.play(program: sender.tag)
+        currentStation = sender.tag
+        setNowPlayingIndicator(button: sender)
+        
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        perform(#selector(setCurrentInformation), with: nil, afterDelay: 1)
+    }
+    
+    func updateNowPlayingInformation(url: String) {
+        NowPlaying.GetCurrentTrack(url: url) { track in
+            DispatchQueue.main.async {
+                let itunesQuery = track.name + " " + track.artist
+                NowPlaying.GetArtwork(query: itunesQuery) { albumImage in
+                    DispatchQueue.main.async { [self] in
+                        self.artistLabel.text = track.artist
+                        self.trackLabel.text = track.name
+                        self.albumArtworkView.image = albumImage
+                    }
+                }
+
+                
+            }
+        }
+    }
+    
+    func resetMenuItemStyle(button: UIButton) {
+        button.backgroundColor = nil
+        button.layer.shadowPath = nil
+        button.setTitleColor(UIColor.white.withAlphaComponent(0.70), for: .normal)
     }
     
     func scheduledRadioReset(){
         timer = Timer.scheduledTimer(timeInterval: 18000, target: self, selector: #selector(handleThreeFingerTap), userInfo: nil, repeats: true)
     }
 
+    func scheduledNowPlayingUpdate(){
+        timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(setCurrentInformation), userInfo: nil, repeats: true)
+    }
+    
+    @objc func setCurrentInformation() {
+        let url = stations![currentStation!].playlistURL
+        updateNowPlayingInformation(url: url)
+    }
     
     @objc func handleThreeFingerTap() {
         player?.reset(stations: stations!)
         player?.play(program: currentStation ?? 1)
-        
-//        let touchPoint = sender.location(in: self.view)
-//
-//        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
-//
-//        player?.play(program: selectedProgram!.tag)
-//        setNowPlayingIndicator(button: selectedProgram!)
     }
     
-    func initProgramButtons(buttons: [UIButton], stations: [RadioStation]) {
-        
-        for (index, button) in buttons.enumerated() {
-            let buttonWidth = button.frame.size.width
-            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: buttonWidth/360)
-            
-            
-            button.setImage(programImage, for: .normal)
-            button.backgroundColor = hexStringToUIColor(hex: stations[index].tileColor)
-            button.setTitleColor(UIColor.white, for: .highlighted)
-            button.setTitleColor(UIColor.white, for: .focused)
-            button.setTitleColor(UIColor.white, for: .selected)
-            button.imageView?.contentMode = .scaleAspectFit
-            
-        }
-        
-    }
+//    func initProgramButtons(buttons: [UIButton], stations: [RadioStation]) {
+//
+//        for (index, button) in buttons.enumerated() {
+//            let buttonWidth = button.frame.size.width
+//            let programImage = UIImage(named: stations[index].imageAsset)?.resized(withPercentage: buttonWidth/360)
+//
+//
+//            button.setImage(programImage, for: .normal)
+//            button.backgroundColor = hexStringToUIColor(hex: stations[index].tileColor)
+//            button.setTitleColor(UIColor.white, for: .highlighted)
+//            button.setTitleColor(UIColor.white, for: .focused)
+//            button.setTitleColor(UIColor.white, for: .selected)
+//            button.imageView?.contentMode = .scaleAspectFit
+//
+//        }
+//
+//    }
 
     var prev:CGFloat = 0.0
     @objc func panDetected(sender : UIPanGestureRecognizer) {
         
         let touchPoint = sender.location(in: self.view)
-        
-//        let selectedProgram = stationButtons?.first(where: {$0.globalFrame!.contains(touchPoint)})
-//
-//        player?.play(program: selectedProgram!.tag)
-//        setNowPlayingIndicator(button: selectedProgram!)
-               
         let vol = AVAudioSession.sharedInstance().outputVolume
 
         if (touchPoint.x < (prev - 10)) {
@@ -99,47 +178,37 @@ class ViewController: UIViewController {
             prev = touchPoint.x
         }
         
-        
     }
     
     
-    @IBAction func programTouched(_ sender: UIButton) {
-        print(1)
-        player?.play(program: sender.tag)
-        currentStation = sender.tag
-        setNowPlayingIndicator(button: sender)
-        
-        stationButtons?.forEach { setButtonShadow(button: $0, opacity: 0.13, blur: 10) }
-        setButtonShadow(button: sender)
-    }
+//    @IBAction func programTouched(_ sender: UIButton) {
+//        print(1)
+//        player?.play(program: sender.tag)
+//        currentStation = sender.tag
+//        setNowPlayingIndicator(button: sender)
+//
+//        stationButtons?.forEach { setButtonShadow(button: $0, opacity: 0.13, blur: 10) }
+//        setButtonShadow(button: sender)
+//    }
     
-    func setButtonShadow(button: UIButton, opacity: Float = 0.5, blur: CGFloat = 30.0) {
-        
-        UIView.transition(with: button,
-                          duration: 0.2,
-                          options: .transitionCrossDissolve,
-                          animations: {
-                            button.layer.shadowColor = UIColor.black.cgColor
-                            button.layer.shadowOffset = CGSize(width: 0.0, height: 6.0)
-                            button.layer.shadowRadius = blur
-                            button.layer.shadowOpacity = opacity
-                          },
-                          completion: nil)
-    }
+//    func setButtonShadow(button: UIButton, opacity: Float = 0.5, blur: CGFloat = 30.0) {
+//
+//        UIView.transition(with: button,
+//                          duration: 0.2,
+//                          options: .transitionCrossDissolve,
+//                          animations: {
+//                            button.layer.shadowColor = UIColor.black.cgColor
+//                            button.layer.shadowOffset = CGSize(width: 0.0, height: 6.0)
+//                            button.layer.shadowRadius = blur
+//                            button.layer.shadowOpacity = opacity
+//                          },
+//                          completion: nil)
+//    }
     
     @IBOutlet weak var bgView: UIView!
     
     func setNowPlayingIndicator(button: UIButton) {
-        self.bgView.backgroundColor = button.backgroundColor!
-//        UIView.transition(with: self.bgView,
-//                          duration: 0.40,
-//                          options: .transitionCrossDissolve,
-//                          animations: {
-//                            self.bgView.backgroundColor = button.backgroundColor!
-//                            //self.bg.image? = (self.bg.image?.tintImage(with: button.backgroundColor!.lighter(by: 35.0)!))!
-//                          },
-//                          completion: nil)
-        
+        self.bgView.backgroundColor = hexStringToUIColor(hex: stations![button.tag].tileColor)
     }
     
     func loadStationsFromJSON(from: String) -> [RadioStation]? {
@@ -320,6 +389,20 @@ extension UIColor {
         } else {
             return nil
         }
+    }
+}
+
+extension UIImageView {
+    func applyshadowWithCorner(containerView : UIView, cornerRadious : CGFloat){
+        containerView.clipsToBounds = false
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOpacity = 1
+        containerView.layer.shadowOffset = CGSize.zero
+        containerView.layer.shadowRadius = 10
+        containerView.layer.cornerRadius = cornerRadious
+        containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds, cornerRadius: cornerRadious).cgPath
+        self.clipsToBounds = true
+        self.layer.cornerRadius = cornerRadious
     }
 }
 

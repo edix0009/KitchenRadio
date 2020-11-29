@@ -4,28 +4,28 @@
         {
             "name": "STUDIO 21",
             "streamURL": "https://icecast-studio21.cdnvideo.ru/S21_1",
-            "playlistURL": "NULL",
+            "playlistURL": "https://scraper2.onlineradiobox.com/ru.studio21",
             "imageAsset": "fip",
             "tileColor": "#515151",
         },
         {
             "name": "Forty4",
             "streamURL": "https://forty4fm.stream.laut.fm/forty4fm",
-            "playlistURL": "NULL",
+            "playlistURL": "https://scraper2.onlineradiobox.com/de.forty4",
             "imageAsset": "nova",
             "tileColor": "#F85453",
         },
         {
             "name": "1. FM (GORILLA)",
             "streamURL": "https://strmreg.1.fm/gorillafm_mobile_mp3",
-            "playlistURL": "NULL",
+            "playlistURL": "https://scraper2.onlineradiobox.com/ch.1fmgorillafmradio",
             "imageAsset": "1fm",
             "tileColor": "#F0A45B",
         },
         {
             "name": "Hitmixradio Hip Hop",
             "streamURL": "https://streamingp.shoutcast.com/hotmixradio-hiphop-128.mp3",
-            "playlistURL": "NULL",
+            "playlistURL": "https://scraper2.onlineradiobox.com/fr.hotmixradhip",
             "imageAsset": "hiphop",
             "tileColor": "#82C9C5",
         }

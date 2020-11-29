@@ -11,6 +11,10 @@
 		EB77D73C22A7DA9800BEA162 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73B22A7DA9800BEA162 /* DataManager.swift */; };
 		EB77D73E22A7DB2600BEA162 /* RadioStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73D22A7DB2600BEA162 /* RadioStation.swift */; };
 		EB77D74022A7FF9500BEA162 /* RadioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77D73F22A7FF9500BEA162 /* RadioPlayer.swift */; };
+		EBDF28452571B98200DEBE28 /* NowPlaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDF28442571B98200DEBE28 /* NowPlaying.swift */; };
+		EBDF28482571BA2500DEBE28 /* ORBTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDF28472571BA2500DEBE28 /* ORBTrack.swift */; };
+		EBDF284B2571BAAB00DEBE28 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDF284A2571BAAB00DEBE28 /* Track.swift */; };
+		EBDF284E2571BABD00DEBE28 /* ITunesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDF284D2571BABD00DEBE28 /* ITunesAPI.swift */; };
 		EBF9E88122A6FF8500CB3606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9E88022A6FF8500CB3606 /* AppDelegate.swift */; };
 		EBF9E88322A6FF8500CB3606 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF9E88222A6FF8500CB3606 /* ViewController.swift */; };
 		EBF9E88622A6FF8500CB3606 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBF9E88422A6FF8500CB3606 /* Main.storyboard */; };
@@ -23,6 +27,10 @@
 		EB77D73B22A7DA9800BEA162 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		EB77D73D22A7DB2600BEA162 /* RadioStation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioStation.swift; sourceTree = "<group>"; };
 		EB77D73F22A7FF9500BEA162 /* RadioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioPlayer.swift; sourceTree = "<group>"; };
+		EBDF28442571B98200DEBE28 /* NowPlaying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlaying.swift; sourceTree = "<group>"; };
+		EBDF28472571BA2500DEBE28 /* ORBTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ORBTrack.swift; sourceTree = "<group>"; };
+		EBDF284A2571BAAB00DEBE28 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		EBDF284D2571BABD00DEBE28 /* ITunesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITunesAPI.swift; sourceTree = "<group>"; };
 		EBF9E87D22A6FF8500CB3606 /* KitchenRadio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KitchenRadio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBF9E88022A6FF8500CB3606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBF9E88222A6FF8500CB3606 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +80,10 @@
 				EBF9E88922A6FF8600CB3606 /* LaunchScreen.storyboard */,
 				EBF9E88C22A6FF8600CB3606 /* Info.plist */,
 				EB77D73922A7D7B200BEA162 /* stations.json */,
+				EBDF28442571B98200DEBE28 /* NowPlaying.swift */,
+				EBDF28472571BA2500DEBE28 /* ORBTrack.swift */,
+				EBDF284A2571BAAB00DEBE28 /* Track.swift */,
+				EBDF284D2571BABD00DEBE28 /* ITunesAPI.swift */,
 			);
 			path = KitchenRadio;
 			sourceTree = "<group>";
@@ -148,11 +160,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBDF284E2571BABD00DEBE28 /* ITunesAPI.swift in Sources */,
 				EBF9E88322A6FF8500CB3606 /* ViewController.swift in Sources */,
 				EB77D73C22A7DA9800BEA162 /* DataManager.swift in Sources */,
 				EB77D73E22A7DB2600BEA162 /* RadioStation.swift in Sources */,
+				EBDF284B2571BAAB00DEBE28 /* Track.swift in Sources */,
 				EBF9E88122A6FF8500CB3606 /* AppDelegate.swift in Sources */,
 				EB77D74022A7FF9500BEA162 /* RadioPlayer.swift in Sources */,
+				EBDF28452571B98200DEBE28 /* NowPlaying.swift in Sources */,
+				EBDF28482571BA2500DEBE28 /* ORBTrack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
