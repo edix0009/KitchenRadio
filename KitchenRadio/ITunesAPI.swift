@@ -48,7 +48,7 @@ internal struct ItunesAPI {
         return components.url
     }
     
-    private static func cleanRawMetadataIfNeeded(_ rawValue: String) -> String {
+    public static func cleanRawMetadataIfNeeded(_ rawValue: String) -> String {
         
         let pattern = #"(\(.*?\)\w*)|(\[.*?\]\w*)"#
         guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return rawValue }
