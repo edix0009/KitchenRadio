@@ -1,0 +1,36 @@
+PODS:
+  - Alamofire (4.9.1)
+  - AlamofireObjectMapper (5.2.1):
+    - Alamofire (~> 4.7)
+    - ObjectMapper (~> 3.4)
+  - AlamoRecord (1.2.2):
+    - AlamofireObjectMapper (~> 5.1)
+  - ObjectMapper (3.5.3)
+  - Spartan (1.2.1):
+    - AlamoRecord (~> 1.2.0)
+  - UIImageColors (2.1.0)
+
+DEPENDENCIES:
+  - Spartan
+  - UIImageColors
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AlamofireObjectMapper
+    - AlamoRecord
+    - ObjectMapper
+    - Spartan
+    - UIImageColors
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
+  AlamoRecord: 5850c563a811fdca40cd361b1b27622004bccef3
+  ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
+  Spartan: 2fb99ad25f2b0e8182799f251c800091977f0a40
+  UIImageColors: d2ef3b0877d203cbb06489eeb78ea8b7788caabe
+
+PODFILE CHECKSUM: 1bd5a0130f588400ddb226182ab41581e9c74bf4
+
+COCOAPODS: 1.10.0
