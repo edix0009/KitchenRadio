@@ -9,10 +9,10 @@
             "tileColor": "#515151",
         },
         {
-            "name": "Forty4",
-            "streamURL": "https://forty4fm.stream.laut.fm/forty4fm",
-            "playlistURL": "https://scraper2.onlineradiobox.com/de.forty4",
-            "imageAsset": "nova",
+            "name": "99X",
+            "streamURL": "https://17013.live.streamtheworld.com/WWWQH2AAC.aac",
+            "playlistURL": "https://scraper2.onlineradiobox.com/us.99x",
+            "imageAsset": "Alternative",
             "tileColor": "#F85453",
         },
         {
@@ -23,9 +23,9 @@
             "tileColor": "#F0A45B",
         },
         {
-            "name": "Hitmixradio Hip Hop",
-            "streamURL": "https://streamingp.shoutcast.com/hotmixradio-hiphop-128.mp3",
-            "playlistURL": "https://scraper2.onlineradiobox.com/fr.hotmixradhip",
+            "name": "UK 2020",
+            "streamURL": "http://s19.myradiostream.com:12440/;stream.nsv",
+            "playlistURL": "https://scraper2.onlineradiobox.com/uk.2020radio",
             "imageAsset": "hiphop",
             "tileColor": "#82C9C5",
         }
