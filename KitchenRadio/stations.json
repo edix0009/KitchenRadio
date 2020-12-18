@@ -28,6 +28,13 @@
             "playlistURL": "https://scraper2.onlineradiobox.com/uk.2020radio",
             "imageAsset": "hiphop",
             "tileColor": "#82C9C5",
+        },
+        {
+            "name": "DnB",
+            "streamURL": "https://air2.radiorecord.ru:805/drumhits_128",
+            "playlistURL": "https://scraper2.onlineradiobox.com/ru.recorddrumnbasshits",
+            "imageAsset": "hiphop",
+            "tileColor": "#82C9C5",
         }
     ]
 }
