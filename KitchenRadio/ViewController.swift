@@ -2,6 +2,8 @@ import UIKit
 import AVKit
 import MediaPlayer
 import UIImageColors
+//import swift_vibrant
+
 
 extension UIStackView {
     func addBackground(color: UIColor) {
@@ -71,7 +73,44 @@ class ViewController: UIViewController {
         
         addToSpotifyButton.backgroundColor = UIColor.black.withAlphaComponent(0.60)
         addToSpotifyButton.layer.cornerRadius = 28
+        
+        initGradients()
 
+    }
+    
+    // my god is this a disgusting hack..
+    var gradients: [CAGradientLayer] = []
+    func initGradients() {
+        
+        var gradient: CAGradientLayer = CAGradientLayer()
+        gradient.colors = [hexStringToUIColor(hex: "2C0101").cgColor, UIColor(white: 0, alpha: 0.0).cgColor]
+        gradient.locations = [0.0 , 1.0]
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 5.5)
+        gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        
+        
+        var gradient2: CAGradientLayer = CAGradientLayer()
+        gradient2.colors = [hexStringToUIColor(hex: "D9A6BF").cgColor, UIColor(white: 0, alpha: 0.0).cgColor]
+        gradient2.locations = [0.0 , 1.0]
+        gradient2.startPoint = CGPoint(x: 0.9, y: 1.1)
+        gradient2.endPoint = CGPoint(x: 0.2, y: 0.1)
+        gradient2.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        
+        
+        var gradient3: CAGradientLayer = CAGradientLayer()
+        gradient3.colors = [hexStringToUIColor(hex: "9E745B").cgColor, UIColor(white: 0, alpha: 0.0).cgColor]
+        gradient3.locations = [0.0 , 1.0]
+        gradient3.startPoint = CGPoint(x: 0.8, y: 0)
+        gradient3.endPoint = CGPoint(x: 0.4, y: 1.0)
+        gradient3.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        
+        self.bgView.layer.insertSublayer(gradient, at: 0)
+        self.bgView.layer.insertSublayer(gradient2, at: 1)
+        self.bgView.layer.insertSublayer(gradient3, at: 2)
+        
+        gradients = [gradient, gradient2, gradient3]
+        
     }
 
     @IBAction func addToSpotify(_ sender: Any) {
@@ -118,11 +157,12 @@ class ViewController: UIViewController {
                 let itunesQuery = track.name + " " + track.artist
                 NowPlaying.GetArtwork(query: itunesQuery) { albumImage in
                     DispatchQueue.main.async { [self] in
-                        albumImage.getColors(quality: .lowest) { colors in
-                            self.artistLabel.text = track.artist
+                        albumImage.getColors(quality: .low) { colors in
+                            self.artistLabel.text = formatArtist(artistName: track.artist)
                             self.trackLabel.text = track.name
                             self.albumArtworkView.image = albumImage
-                            bgView.backgroundColor = getBestColor(colors: colors)
+                            setBackgroundGradients(colors: colors!)
+                            //bgView.backgroundColor = getBestColor(colors: colors)
                         }
                         addToSpotifyButton.setTitle("＋", for: .normal)
                         addToSpotifyButton.titleLabel?.font.withSize(35)
@@ -132,21 +172,41 @@ class ViewController: UIViewController {
         }
     }
     
-    func getBestColor(colors: UIImageColors?) -> UIColor {
+    func formatArtist(artistName: String) -> String {
         
-        if !(colors?.primary.tooDarkOrLight())! {
-            return (colors?.primary)!
-        } else if (!(colors?.secondary.tooDarkOrLight())!) {
-            return (colors?.secondary)!
-        } else if (!(colors?.background.tooDarkOrLight())!) {
-            return (colors?.background)!
-        } else if (!(colors?.detail.tooDarkOrLight())!) {
-            return (colors?.detail)!
+        var x = artistName
+        let skipPatterns = [", ", ";", "& ", "(feat. ", "feat. ",
+                            "ft. ", "Ft. ", " ft ", "/"]
+        
+        skipPatterns.forEach { pattern in
+            x.removingRegexMatches(pattern: pattern, replaceWith: "\n")
         }
         
-        return UIColor.gray
-            
+        return x
     }
+    
+    func setBackgroundGradients(colors: UIImageColors) {
+        let clearColor = UIColor(white: 0, alpha: 0.0).cgColor
+        gradients[0].colors = [colors.primary.cgColor, clearColor]
+        gradients[1].colors = [colors.secondary.cgColor, clearColor]
+        gradients[2].colors = [colors.background.cgColor, clearColor]
+    }
+    
+//    func getBestColor(colors: UIImageColors?) -> UIColor {
+//
+//        if !(colors?.primary.tooDarkOrLight())! {
+//            return (colors?.primary)!
+//        } else if (!(colors?.secondary.tooDarkOrLight())!) {
+//            return (colors?.secondary)!
+//        } else if (!(colors?.background.tooDarkOrLight())!) {
+//            return (colors?.background)!
+//        } else if (!(colors?.detail.tooDarkOrLight())!) {
+//            return (colors?.detail)!
+//        }
+//
+//        return UIColor.gray
+//
+//    }
     
     func resetMenuItemStyle(button: UIButton) {
         button.backgroundColor = nil
@@ -258,4 +318,12 @@ extension UIColor {
     }
 }
 
-
+extension String {
+    mutating func removingRegexMatches(pattern: String, replaceWith: String = "") {
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            let range = NSRange(location: 0, length: count)
+            self = regex.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replaceWith)
+        } catch { return }
+    }
+}
