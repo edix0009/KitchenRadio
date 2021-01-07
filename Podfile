@@ -6,6 +6,7 @@ target 'KitchenRadio' do
   use_frameworks!
   pod 'Spartan'
   pod 'UIImageColors'
+  pod 'swift-vibrant'
 
   # Pods for KitchenRadio
 

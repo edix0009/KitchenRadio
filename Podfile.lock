@@ -8,10 +8,12 @@ PODS:
   - ObjectMapper (3.5.3)
   - Spartan (1.2.1):
     - AlamoRecord (~> 1.2.0)
+  - swift-vibrant (1.0.0)
   - UIImageColors (2.1.0)
 
 DEPENDENCIES:
   - Spartan
+  - swift-vibrant
   - UIImageColors
 
 SPEC REPOS:
@@ -21,6 +23,7 @@ SPEC REPOS:
     - AlamoRecord
     - ObjectMapper
     - Spartan
+    - swift-vibrant
     - UIImageColors
 
 SPEC CHECKSUMS:
@@ -29,8 +32,9 @@ SPEC CHECKSUMS:
   AlamoRecord: 5850c563a811fdca40cd361b1b27622004bccef3
   ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
   Spartan: 2fb99ad25f2b0e8182799f251c800091977f0a40
+  swift-vibrant: 3def73c5c281db74f420ec386590d9c1c5b0995c
   UIImageColors: d2ef3b0877d203cbb06489eeb78ea8b7788caabe
 
-PODFILE CHECKSUM: 1bd5a0130f588400ddb226182ab41581e9c74bf4
+PODFILE CHECKSUM: 5f57d6676cdbc6505b6d0b4fb40cc58ab8c61929
 
 COCOAPODS: 1.10.0

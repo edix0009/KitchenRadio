@@ -94,7 +94,7 @@ class ViewController: UIViewController {
         gradient2.colors = [hexStringToUIColor(hex: "D9A6BF").cgColor, UIColor(white: 0, alpha: 0.0).cgColor]
         gradient2.locations = [0.0 , 1.0]
         gradient2.startPoint = CGPoint(x: 0.9, y: 1.1)
-        gradient2.endPoint = CGPoint(x: 0.2, y: 0.1)
+        gradient2.endPoint = CGPoint(x: 0.2, y: 0.0)
         gradient2.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         
         
@@ -186,10 +186,48 @@ class ViewController: UIViewController {
     }
     
     func setBackgroundGradients(colors: UIImageColors) {
+//        let clearColor = UIColor(white: 0, alpha: 0.0).cgColor
+//        gradients[0].colors = [colors.primary.cgColor, clearColor]
+//        gradients[1].colors = [colors.secondary.cgColor, clearColor]
+//        gradients[2].colors = [colors.background.cgColor, clearColor]
+//
+        
         let clearColor = UIColor(white: 0, alpha: 0.0).cgColor
-        gradients[0].colors = [colors.primary.cgColor, clearColor]
-        gradients[1].colors = [colors.secondary.cgColor, clearColor]
-        gradients[2].colors = [colors.background.cgColor, clearColor]
+        let colorList = [colors.background, colors.primary,
+                         colors.secondary, colors.detail]
+        
+        let c = (colorList.first{isColorfulEnough(color: $0!)} ?? UIColor.gray)!.hsba
+        
+        
+        let c1 = UIColor.init(hue: c.hue,
+                              saturation: c.saturation+0.1,
+                              brightness: c.brightness+0.1,
+                              alpha: c.alpha).cgColor
+        
+        // Bottom Corner
+        let c2 = UIColor.init(hue: c.hue+0.017,
+                              saturation: c.saturation,
+                              brightness: c.brightness+0.1,
+                              alpha: c.alpha).cgColor
+        
+        // Top corner
+        let c3 = UIColor.init(hue: c.hue-0.017,
+                              saturation: c.saturation-0.1,
+                              brightness: c.brightness-0.1,
+                              alpha: c.alpha).cgColor
+        
+        
+        gradients[0].colors = [c1, clearColor]
+        gradients[1].colors = [c2, clearColor]
+        gradients[2].colors = [c3, clearColor]
+        
+        
+    }
+    
+    func isColorfulEnough(color: UIColor) -> Bool {
+        print(color.hsba)
+        let c = color.hsba
+        return c.brightness > 0.3 && c.saturation > 0.3
     }
     
 //    func getBestColor(colors: UIImageColors?) -> UIColor {
@@ -235,7 +273,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var bgView: UIView!
     
     func setNowPlayingIndicator(button: UIButton) {
-        self.bgView.backgroundColor = hexStringToUIColor(hex: stations![button.tag].tileColor)
+        //self.bgView.backgroundColor = hexStringToUIColor(hex: stations![button.tag].tileColor)
     }
     
     func loadStationsFromJSON(from: String) -> [RadioStation]? {
@@ -327,3 +365,11 @@ extension String {
         } catch { return }
     }
 }
+
+extension UIColor {
+    var hsba:(hue: CGFloat, saturation: CGFloat, brightness: CGFloat, alpha: CGFloat) {
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        return (hue: h, saturation: s, brightness: b, alpha: a)
+    }
+ }
