@@ -25,9 +25,9 @@ struct TokenEndpointResponse: Codable {
 
 class SpotifyAuth {
         
-    static let clientID = "XXXX"
-    static let clientSecret = "XXXX"
-    static let refreshToken = "XXXX"
+    static let clientID = "741393d71110475c9dfe011b6966f50f"
+    static let clientSecret = "486811a667fe48faa352dac931c66704"
+    static let refreshToken = "AQBPdulHHrFF0pZDCX67qReZ46xV65UGRmN6PST4fJMDzeMyNyDTIoWktLkhEEVJwNSh4rpdTTCooYFDrwMrh-etwx8e9W0tFyx9m0vg6izwcIghaMRkjGc6v0IBa2OJuR8"
     
     static let requestBody = "grant_type=refresh_token&refresh_token=\(refreshToken)"
     static let apiTokenEndpointURL = "https://accounts.spotify.com/api/token"
@@ -51,6 +51,8 @@ class SpotifyAuth {
 
         let task = URLSession.shared.dataTask(with: urlRequest,
                                               completionHandler: { (data, _, error) in
+            
+                                                print(String(decoding: data!, as: UTF8.self))
             if let data = data,
                 let authResponse = try? JSONDecoder().decode(TokenEndpointResponse.self, from: data), error == nil {
                 DispatchQueue.main.async {
@@ -65,7 +67,30 @@ class SpotifyAuth {
         task.resume()
     }
     
-    static func addTrackToPlaylist(query: String) {
+//    static func addTrackToPlaylist(query: String) {
+//
+//        authRequest() {tokenResponse,_ in
+//
+//            Spartan.authorizationToken = tokenResponse?.accessToken
+//            Spartan.search(query: query, type: .track, success: { (pagingObject: PagingObject<Track>) in
+//                guard let trackURI = (pagingObject.items.first?.uri) else { return }
+//
+//                Spartan.addTracksToPlaylist(userId: "nnnnnnko", playlistId: "62TNaAbFKZuQ3Z68qwSDhc", trackUris: [trackURI], success: { (snapshot) in
+//                    print("Added!")
+//
+//                }, failure: { (error) in
+//                    print(error)
+//                })
+//
+//            }, failure: { (error) in
+//            print(error)
+//            })
+//
+//        }
+//    }
+    
+    
+    static func addTrackToPlaylist(query: String, success: @escaping ((_) -> String)) {
         
         authRequest() {tokenResponse,_ in
             
@@ -75,8 +100,11 @@ class SpotifyAuth {
                 
                 Spartan.addTracksToPlaylist(userId: "nnnnnnko", playlistId: "62TNaAbFKZuQ3Z68qwSDhc", trackUris: [trackURI], success: { (snapshot) in
                     print("Added!")
+                    success("Get song")
+                    
                 }, failure: { (error) in
                     print(error)
+                    success(":(")
                 })
                 
             }, failure: { (error) in

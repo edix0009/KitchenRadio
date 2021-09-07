@@ -25,6 +25,10 @@ class ViewController: UIViewController {
     var currentStation: Int? = 0
     var currentTrack: KRTrack?
     var timer = Timer()
+    var workItem: DispatchWorkItem?
+    
+    // Gaint hack this shouldn't work
+    var workItemOrder = 0
 
     @IBOutlet weak var menuBarStack: UIStackView!
     @IBOutlet weak var wrapperViewAlbumArt: UIView!
@@ -32,6 +36,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var trackLabel: UILabel!
     @IBOutlet weak var addToSpotifyButton: UIButton!
+    @IBOutlet weak var leftButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +47,9 @@ class ViewController: UIViewController {
         player = RadioPlayer(stations: stations!)
         
         // Three finger tap gesture to reset stations
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTap))
-        gesture.numberOfTapsRequired = 3
-        container.addGestureRecognizer(gesture)
+        // let gesture = UITapGestureRecognizer(target: self, action: #selector(handleThreeFingerTap))
+        // gesture.numberOfTapsRequired = 3
+        // container.addGestureRecognizer(gesture)
      
         // Init timers
         scheduledRadioReset()
@@ -74,15 +79,42 @@ class ViewController: UIViewController {
         addToSpotifyButton.backgroundColor = UIColor.black.withAlphaComponent(0.60)
         addToSpotifyButton.layer.cornerRadius = 28
         
+        leftButton.backgroundColor = UIColor.black.withAlphaComponent(0.01)
+        leftButton.layer.cornerRadius = 28
+        
         initGradients()
-
+        
+        workItem = DispatchWorkItem { self.setCurrentInformation() }
+    }
+    
+    
+    @IBAction func setQRCode(_ sender: Any) {
+//        currentTrack?.name = "QRCODE"
+//        albumArtworkView.image = UIImage(named: "qrCodespotifyPlaylist")
+        
+        // Just reset the radio instead
+        
+        player?.reset(stations: stations!)
+        player?.play(program: currentStation ?? 1)
+    }
+    
+    
+    @IBAction func next(_ sender: Any) {
+        let nextStation = ((currentStation!+1) % (self.menuBarStack.subviews.count-1))
+        
+        let stationButton = getSubviewsOf(view: self.menuBarStack)
+            .filter{ $0 is UIButton }
+            .filter{ $0.tag == nextStation }
+            .first
+        
+        menuItemTouched(stationButton as! UIButton)
     }
     
     // my god is this a disgusting hack..
     var gradients: [CAGradientLayer] = []
     func initGradients() {
         
-        var gradient: CAGradientLayer = CAGradientLayer()
+        let gradient: CAGradientLayer = CAGradientLayer()
         gradient.colors = [hexStringToUIColor(hex: "2C0101").cgColor, UIColor(white: 0, alpha: 0.0).cgColor]
         gradient.locations = [0.0 , 1.0]
         gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
@@ -90,7 +122,7 @@ class ViewController: UIViewController {
         gradient.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         
         
-        var gradient2: CAGradientLayer = CAGradientLayer()
+        let gradient2: CAGradientLayer = CAGradientLayer()
         gradient2.colors = [hexStringToUIColor(hex: "D9A6BF").cgColor, UIColor(white: 0, alpha: 0.0).cgColor]
         gradient2.locations = [0.0 , 1.0]
         gradient2.startPoint = CGPoint(x: 0.9, y: 1.1)
@@ -98,7 +130,7 @@ class ViewController: UIViewController {
         gradient2.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: self.view.frame.size.height)
         
         
-        var gradient3: CAGradientLayer = CAGradientLayer()
+        let gradient3: CAGradientLayer = CAGradientLayer()
         gradient3.colors = [hexStringToUIColor(hex: "9E745B").cgColor, UIColor(white: 0, alpha: 0.0).cgColor]
         gradient3.locations = [0.0 , 1.0]
         gradient3.startPoint = CGPoint(x: 0.8, y: 0)
@@ -114,18 +146,17 @@ class ViewController: UIViewController {
     }
 
     @IBAction func addToSpotify(_ sender: Any) {
-        guard self.addToSpotifyButton.titleLabel?.text != "✓" else { return }
+        guard self.addToSpotifyButton.titleLabel?.text != "Added!" else { return }
         guard let track = currentTrack else { return }
         
         let trackQuery = track.name + " " + track.artist
         let cleanedTrackQuery = ItunesAPI.cleanRawMetadataIfNeeded(trackQuery)
         SpotifyAuth.addTrackToPlaylist(query: cleanedTrackQuery)
-        addToSpotifyButton.setTitle("✓", for: .normal)
+        addToSpotifyButton.setTitle("Added!", for: .normal)
         addToSpotifyButton.titleLabel?.font.withSize(25)
     }
     
     @objc func menuItemTouched(_ sender: UIButton) {
-        print("Tocuhed! :D")
         
         getSubviewsOf(view: self.menuBarStack)
             .filter{ $0 is UIButton }
@@ -139,32 +170,38 @@ class ViewController: UIViewController {
         sender.layer.shadowOpacity = 0.46
         sender.setTitleColor(UIColor.black.withAlphaComponent(0.70), for: .normal)
         
-        player?.play(program: sender.tag)
         currentStation = sender.tag
-        setNowPlayingIndicator(button: sender)
+        player?.play(program: currentStation!)
         
-        NSObject.cancelPreviousPerformRequests(withTarget: self)
-        perform(#selector(setCurrentInformation), with: nil, afterDelay: 1)
+        setCurrentInformation()
+        //NSObject.cancelPreviousPerformRequests(withTarget: self)
+        //perform(#selector(setCurrentInformation), with: nil, afterDelay: 1)
         
         
     }
     
-    func updateNowPlayingInformation(url: String) {
+    func updateNowPlayingInformation(url: String, order: Int) {
         NowPlaying.GetCurrentTrack(url: url) { track in
             DispatchQueue.main.async {
+                
                 guard track != self.currentTrack else { return }
-                self.currentTrack = track
+                guard self.workItemOrder == order else { return }
+                
+                
                 let itunesQuery = track.name + " " + track.artist
                 NowPlaying.GetArtwork(query: itunesQuery) { albumImage in
                     DispatchQueue.main.async { [self] in
                         albumImage.getColors(quality: .low) { colors in
+                            
+                            guard workItemOrder == order else { return }
+                            self.currentTrack = track
+                            
                             self.artistLabel.text = formatArtist(artistName: track.artist)
                             self.trackLabel.text = track.name
                             self.albumArtworkView.image = albumImage
                             setBackgroundGradients(colors: colors!)
-                            //bgView.backgroundColor = getBestColor(colors: colors)
                         }
-                        addToSpotifyButton.setTitle("＋", for: .normal)
+                        addToSpotifyButton.setTitle("Add to playlist", for: .normal)
                         addToSpotifyButton.titleLabel?.font.withSize(35)
                     }
                 }
@@ -176,7 +213,7 @@ class ViewController: UIViewController {
         
         var x = artistName
         let skipPatterns = [", ", ";", "& ", "(feat. ", "feat. ",
-                            "ft. ", "Ft. ", " ft ", "/"]
+                            "ft. ", "Ft. ", " ft ", "/", " x "]
         
         skipPatterns.forEach { pattern in
             x.removingRegexMatches(pattern: pattern, replaceWith: "\n")
@@ -186,11 +223,6 @@ class ViewController: UIViewController {
     }
     
     func setBackgroundGradients(colors: UIImageColors) {
-//        let clearColor = UIColor(white: 0, alpha: 0.0).cgColor
-//        gradients[0].colors = [colors.primary.cgColor, clearColor]
-//        gradients[1].colors = [colors.secondary.cgColor, clearColor]
-//        gradients[2].colors = [colors.background.cgColor, clearColor]
-//
         
         let clearColor = UIColor(white: 0, alpha: 0.0).cgColor
         let colorList = [colors.background, colors.primary,
@@ -221,7 +253,6 @@ class ViewController: UIViewController {
         gradients[1].colors = [c2, clearColor]
         gradients[2].colors = [c3, clearColor]
         
-        
     }
     
     func isColorfulEnough(color: UIColor) -> Bool {
@@ -229,22 +260,6 @@ class ViewController: UIViewController {
         let c = color.hsba
         return c.brightness > 0.3 && c.saturation > 0.3
     }
-    
-//    func getBestColor(colors: UIImageColors?) -> UIColor {
-//
-//        if !(colors?.primary.tooDarkOrLight())! {
-//            return (colors?.primary)!
-//        } else if (!(colors?.secondary.tooDarkOrLight())!) {
-//            return (colors?.secondary)!
-//        } else if (!(colors?.background.tooDarkOrLight())!) {
-//            return (colors?.background)!
-//        } else if (!(colors?.detail.tooDarkOrLight())!) {
-//            return (colors?.detail)!
-//        }
-//
-//        return UIColor.gray
-//
-//    }
     
     func resetMenuItemStyle(button: UIButton) {
         button.backgroundColor = nil
@@ -262,7 +277,8 @@ class ViewController: UIViewController {
     
     @objc func setCurrentInformation() {
         let url = stations![currentStation!].playlistURL
-        updateNowPlayingInformation(url: url)
+        workItemOrder += 1
+        updateNowPlayingInformation(url: url, order: workItemOrder)
     }
     
     @objc func handleThreeFingerTap() {
@@ -271,11 +287,7 @@ class ViewController: UIViewController {
     }
     
     @IBOutlet weak var bgView: UIView!
-    
-    func setNowPlayingIndicator(button: UIButton) {
-        //self.bgView.backgroundColor = hexStringToUIColor(hex: stations![button.tag].tileColor)
-    }
-    
+
     func loadStationsFromJSON(from: String) -> [RadioStation]? {
         var stations:[RadioStation]?
         print(1)

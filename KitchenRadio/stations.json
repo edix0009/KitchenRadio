@@ -10,7 +10,7 @@
         },
         {
             "name": "99X",
-            "streamURL": "https://17013.live.streamtheworld.com/WWWQH2AAC.aac",
+            "streamURL": "https://15313.live.streamtheworld.com/WWWQH2AAC.aac",
             "playlistURL": "https://scraper2.onlineradiobox.com/us.99x",
             "imageAsset": "Alternative",
             "tileColor": "#F85453",
@@ -23,16 +23,16 @@
             "tileColor": "#F0A45B",
         },
         {
-            "name": "UK 2020",
-            "streamURL": "http://s19.myradiostream.com:12440/;stream.nsv",
-            "playlistURL": "https://scraper2.onlineradiobox.com/uk.2020radio",
+            "name": "EDM",
+            "streamURL": "https://fluxfm.streamabc.net/flx-johnreedradio-mp3-128-5108296",
+            "playlistURL": "https://scraper2.onlineradiobox.com/de.fluxjohnreed",
             "imageAsset": "hiphop",
             "tileColor": "#82C9C5",
         },
         {
-            "name": "DnB",
-            "streamURL": "https://air2.radiorecord.ru:805/drumhits_128",
-            "playlistURL": "https://scraper2.onlineradiobox.com/ru.recorddrumnbasshits",
+            "name": "Chill",
+            "streamURL": "http://stream.myjungly.fr/RIFFX",
+            "playlistURL": "https://scraper2.onlineradiobox.com/fr.riffx",
             "imageAsset": "hiphop",
             "tileColor": "#82C9C5",
         }
