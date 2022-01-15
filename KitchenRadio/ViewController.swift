@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var trackLabel: UILabel!
     @IBOutlet weak var addToSpotifyButton: UIButton!
     @IBOutlet weak var leftButton: UIButton!
+    @IBOutlet weak var clockLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +55,10 @@ class ViewController: UIViewController {
         // Init timers
         scheduledRadioReset()
         scheduledNowPlayingUpdate()
+        clockTicker()
+        
+        
+        
         
         // Init play buttons
         menuBarStack.addBackground(color: UIColor.black.withAlphaComponent(0.60))
@@ -273,6 +278,18 @@ class ViewController: UIViewController {
 
     func scheduledNowPlayingUpdate(){
         timer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(setCurrentInformation), userInfo: nil, repeats: true)
+    }
+    
+    func clockTicker(){
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(setClock), userInfo: nil, repeats: true)
+    }
+    
+    @objc func setClock() {
+        let date = Date()
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let dateString = dateFormatter.string(from: date)
+        clockLabel.text = dateString
     }
     
     @objc func setCurrentInformation() {

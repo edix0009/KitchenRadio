@@ -67,51 +67,27 @@ class SpotifyAuth {
         task.resume()
     }
     
-//    static func addTrackToPlaylist(query: String) {
-//
-//        authRequest() {tokenResponse,_ in
-//
-//            Spartan.authorizationToken = tokenResponse?.accessToken
-//            Spartan.search(query: query, type: .track, success: { (pagingObject: PagingObject<Track>) in
-//                guard let trackURI = (pagingObject.items.first?.uri) else { return }
-//
-//                Spartan.addTracksToPlaylist(userId: "nnnnnnko", playlistId: "62TNaAbFKZuQ3Z68qwSDhc", trackUris: [trackURI], success: { (snapshot) in
-//                    print("Added!")
-//
-//                }, failure: { (error) in
-//                    print(error)
-//                })
-//
-//            }, failure: { (error) in
-//            print(error)
-//            })
-//
-//        }
-//    }
-    
-    
-    static func addTrackToPlaylist(query: String, success: @escaping ((_) -> String)) {
-        
+    static func addTrackToPlaylist(query: String) {
+
         authRequest() {tokenResponse,_ in
-            
+
             Spartan.authorizationToken = tokenResponse?.accessToken
             Spartan.search(query: query, type: .track, success: { (pagingObject: PagingObject<Track>) in
                 guard let trackURI = (pagingObject.items.first?.uri) else { return }
-                
+
                 Spartan.addTracksToPlaylist(userId: "nnnnnnko", playlistId: "62TNaAbFKZuQ3Z68qwSDhc", trackUris: [trackURI], success: { (snapshot) in
                     print("Added!")
-                    success("Get song")
-                    
+
                 }, failure: { (error) in
                     print(error)
-                    success(":(")
                 })
-                
+
             }, failure: { (error) in
             print(error)
             })
-            
+
         }
     }
+
     
 }

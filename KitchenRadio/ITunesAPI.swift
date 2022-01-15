@@ -48,6 +48,19 @@ internal struct ItunesAPI {
         return components.url
     }
     
+    static func removeSpecials(artistName: String) -> String {
+        
+        var x = artistName
+        let skipPatterns = [", ", ";", "& ", "(feat. ", "feat. ",
+                            "ft. ", "Ft. ", " ft "]
+        
+        skipPatterns.forEach { pattern in
+            x.removingRegexMatches(pattern: pattern, replaceWith: " ")
+        }
+        
+        return x
+    }
+    
     public static func cleanRawMetadataIfNeeded(_ rawValue: String) -> String {
         
         let pattern = #"(\(.*?\)\w*)|(\[.*?\]\w*)"#
@@ -56,7 +69,10 @@ internal struct ItunesAPI {
         let rawCleaned = NSMutableString(string: rawValue)
         regex.replaceMatches(in: rawCleaned , options: .reportProgress, range: NSRange(location: 0, length: rawCleaned.length), withTemplate: "")
         
-        return rawCleaned as String
+        var cleaned = rawCleaned as String
+        cleaned = removeSpecials(artistName: cleaned)
+        
+        return cleaned
     }
     
     private struct Domain {

@@ -15,12 +15,48 @@ class NowPlaying {
         
         return KRTrack(artist: "Unknown", name: "Unknow")
     }
+    
+    struct P3Track: Decodable {
+        
+        struct TrackItem: Decodable {
+            let title: String?
+        }
+        
+        let track: TrackItem?
+        
+    }
+    
+    struct S21Track: Codable {
+      let a: String?
+      let t: String?
+      
+        enum CodingKeys: String, CodingKey {
+          case a = "a"
+          case t = "t"
+      }
+        
+    }
         
 
     static func parseJSON(content: String) -> String {
         let jsonData = content.data(using: .utf8)!
-        let orbTrack: ORBTrack = try! JSONDecoder().decode(ORBTrack.self, from: jsonData)
-        return orbTrack.title ?? "Unknown"
+        print(content)
+        // OlineRadioBox
+        if (content.contains("\"track\":")) {
+            let p3track: P3Track? = try? JSONDecoder().decode(P3Track.self, from: jsonData)
+            return p3track?.track?.title ?? "P3 - Din Gata"
+        }
+        // P3 Din Gata
+        else if (content.contains("\"stationId\":")) {
+            let orbTrack: ORBTrack? = try? JSONDecoder().decode(ORBTrack.self, from: jsonData)
+            return orbTrack?.title ?? "Unkown"
+        }
+        // Studio21
+        else if (content.contains("\"t\":")) {
+            let s21track: S21Track? = try? JSONDecoder().decode(S21Track.self, from: jsonData)
+            return (s21track?.a ?? " ") + " - " + (s21track?.t ?? " ")
+        }
+        return "Unknown"
     }
     
     static func printTrack(track: KRTrack) {
