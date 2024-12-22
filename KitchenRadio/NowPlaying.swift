@@ -5,15 +5,16 @@ class NowPlaying {
 
     static func extractTrackInfo(rawTrack: String) -> KRTrack {
         
-        let components = rawTrack.components(separatedBy: " - ")
+        let replaced = rawTrack.replacingOccurrences(of: " / ", with: " - ")
+        let components = replaced.components(separatedBy: " - ")
         
         if components.count >= 2 {
             let artist_t = components[0].trimmingCharacters(in: .whitespacesAndNewlines)
             let name_t = components[1].split(separator: "|").first!.trimmingCharacters(in: .whitespacesAndNewlines)
-            return KRTrack(artist: artist_t, name: name_t)
+            return KRTrack(artist: artist_t, name: name_t, raw: rawTrack)
         }
         
-        return KRTrack(artist: "Unknown", name: "Unknow")
+        return KRTrack(artist: "Unknown", name: "Unknown", raw: "")
     }
     
     struct P3Track: Decodable {
@@ -36,25 +37,43 @@ class NowPlaying {
       }
         
     }
+    
+    struct ERFTTrack: Decodable {
+        let artist: String
+        let title: String
+        
+        var currentTrack: String {
+            return "\(title) - \(artist)"
+        }
+        
+        private enum CodingKeys: String, CodingKey {
+            case artist, title
+        }
+    }
         
 
     static func parseJSON(content: String) -> String {
         let jsonData = content.data(using: .utf8)!
         print(content)
-        // OlineRadioBox
+        // P3 Din Gata
         if (content.contains("\"track\":")) {
             let p3track: P3Track? = try? JSONDecoder().decode(P3Track.self, from: jsonData)
             return p3track?.track?.title ?? "P3 - Din Gata"
         }
-        // P3 Din Gata
+        // OlineRadioBox
         else if (content.contains("\"stationId\":")) {
             let orbTrack: ORBTrack? = try? JSONDecoder().decode(ORBTrack.self, from: jsonData)
-            return orbTrack?.title ?? "Unkown"
+            return orbTrack?.title ?? "Unknown"
         }
         // Studio21
         else if (content.contains("\"t\":")) {
             let s21track: S21Track? = try? JSONDecoder().decode(S21Track.self, from: jsonData)
             return (s21track?.a ?? " ") + " - " + (s21track?.t ?? " ")
+        }
+        // RadioERFT
+        else if (content.contains("\"station_id\":")) {
+            let erftTrack: [ERFTTrack]? = try? JSONDecoder().decode([ERFTTrack].self, from: jsonData)
+            return erftTrack?.first?.currentTrack ?? "Unknown"
         }
         return "Unknown"
     }
@@ -82,6 +101,8 @@ class NowPlaying {
     }
     
     static func GetArtwork(query: String, success: @escaping ((_ image: UIImage) -> Void)) {
+        let query = query == "Unknown Unknown" ? "Unknown Pleasures Joy" : query
+        
         ItunesAPI.getArtwork(for: query, size: 900) { url in
             if (url != nil) {
                 let data = try? Data(contentsOf: url!)

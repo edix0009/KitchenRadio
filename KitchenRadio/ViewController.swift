@@ -33,6 +33,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var menuBarStack: UIStackView!
     @IBOutlet weak var wrapperViewAlbumArt: UIView!
     @IBOutlet weak var albumArtworkView: UIImageView!
+    @IBOutlet weak var fullTrackLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var trackLabel: UILabel!
     @IBOutlet weak var addToSpotifyButton: UIButton!
@@ -103,6 +104,18 @@ class ViewController: UIViewController {
         player?.play(program: currentStation ?? 1)
     }
     
+    
+    @IBAction func prev(_ sender: Any) {
+        let selected = (currentStation!-1)
+        let nextStation = selected < 0 ? (self.menuBarStack.subviews.count-2) : selected
+        
+        let stationButton = getSubviewsOf(view: self.menuBarStack)
+            .filter{ $0 is UIButton }
+            .filter{ $0.tag == nextStation }
+            .first
+        
+        menuItemTouched(stationButton as! UIButton)
+    }
     
     @IBAction func next(_ sender: Any) {
         let nextStation = ((currentStation!+1) % (self.menuBarStack.subviews.count-1))
@@ -201,6 +214,7 @@ class ViewController: UIViewController {
                             guard workItemOrder == order else { return }
                             self.currentTrack = track
                             
+                            self.fullTrackLabel.text = track.raw
                             self.artistLabel.text = formatArtist(artistName: track.artist)
                             self.trackLabel.text = track.name
                             self.albumArtworkView.image = albumImage
